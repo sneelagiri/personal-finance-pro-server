@@ -1,0 +1,85 @@
+scalar DateTime
+
+type Query {
+  budget(
+    filter: String
+    skip: Int
+    first: Int
+    orderby: BudgetOrderByInput
+  ): Feed!
+}
+
+enum BudgetOrderByInput {
+  total_ASC
+  total_DESC
+  startDate_ASC
+  startDate_DESC
+  endDate_ASC
+  endDate_DESC
+  savingsTarget_ASC
+  savingsTarget_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type Feed {
+  budgets: [Budget!]!
+  count: Int!
+}
+
+type Mutation {
+  signup(email: String!, password: String!, name: String!): AuthPayload
+  login(email: String!, password: String!): AuthPayload
+  budget(
+    total: Float!
+    startDate: DateTime!
+    endDate: DateTime!
+    savingsTarget: Float!
+    expenses: [Expense!]!
+    savings: [Savings!]!
+  ): Budget!
+  expense(
+    expenseAmount: Float!
+    expenseDesc: String!
+    expenseCategory: String!
+  ): Expense!
+  savings(total: Float!, month: String!, monthAmount: Float!): Savings!
+}
+
+type AuthPayload {
+  token: String
+  user: User
+}
+
+type User {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  budgets: [Budget!]!
+}
+
+type Budget {
+  id: ID!
+  total: Float!
+  startDate: DateTime!
+  endDate: DateTime!
+  savingsTarget: Float!
+  expenses: [Expense!]!
+  savings: [Savings!]!
+  createdAt: DateTime!
+}
+
+type Expense {
+  id: ID!
+  expenseAmount: Float!
+  expenseDesc: String!
+  expenseCategory: String!
+}
+
+type Savings {
+  id: ID!
+  total: Float!
+  month: String!
+  monthAmount: Float!
+}
