@@ -1,0 +1,33 @@
+type User {
+  id: ID! @id
+  firstName: String!
+  lastName: String!
+  email: String! @unique
+  password: String!
+  budgets: [Budget!]! 
+} 
+
+type Budget {
+  id: ID! @id
+  total: Float!
+  startDate: DateTime! @unique
+  endDate: DateTime! @unique
+  savingsTarget: Float!
+  expenses: [Expense!]!
+  savings: [Savings!]!
+}
+
+type Expense {
+  id: ID! @id
+  expenseAmount: Float!
+  expenseDesc: String!
+  expenseCategory: String!
+}
+
+type Savings {
+  id: ID! @id
+  total: Float!
+  month: String!
+  monthAmount: Float!
+}
+
