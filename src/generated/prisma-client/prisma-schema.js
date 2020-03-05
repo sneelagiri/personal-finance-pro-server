@@ -31,6 +31,7 @@ type Budget {
   savingsTarget: Float!
   expenses(where: ExpenseWhereInput, orderBy: ExpenseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Expense!]
   savings(where: SavingsWhereInput, orderBy: SavingsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Savings!]
+  postedBy: User
 }
 
 type BudgetConnection {
@@ -47,11 +48,22 @@ input BudgetCreateInput {
   savingsTarget: Float!
   expenses: ExpenseCreateManyInput
   savings: SavingsCreateManyInput
+  postedBy: UserCreateOneWithoutBudgetsInput
 }
 
-input BudgetCreateManyInput {
-  create: [BudgetCreateInput!]
+input BudgetCreateManyWithoutPostedByInput {
+  create: [BudgetCreateWithoutPostedByInput!]
   connect: [BudgetWhereUniqueInput!]
+}
+
+input BudgetCreateWithoutPostedByInput {
+  id: ID
+  total: Float!
+  startDate: DateTime!
+  endDate: DateTime!
+  savingsTarget: Float!
+  expenses: ExpenseCreateManyInput
+  savings: SavingsCreateManyInput
 }
 
 type BudgetEdge {
@@ -150,15 +162,6 @@ input BudgetSubscriptionWhereInput {
   NOT: [BudgetSubscriptionWhereInput!]
 }
 
-input BudgetUpdateDataInput {
-  total: Float
-  startDate: DateTime
-  endDate: DateTime
-  savingsTarget: Float
-  expenses: ExpenseUpdateManyInput
-  savings: SavingsUpdateManyInput
-}
-
 input BudgetUpdateInput {
   total: Float
   startDate: DateTime
@@ -166,6 +169,7 @@ input BudgetUpdateInput {
   savingsTarget: Float
   expenses: ExpenseUpdateManyInput
   savings: SavingsUpdateManyInput
+  postedBy: UserUpdateOneWithoutBudgetsInput
 }
 
 input BudgetUpdateManyDataInput {
@@ -175,18 +179,6 @@ input BudgetUpdateManyDataInput {
   savingsTarget: Float
 }
 
-input BudgetUpdateManyInput {
-  create: [BudgetCreateInput!]
-  update: [BudgetUpdateWithWhereUniqueNestedInput!]
-  upsert: [BudgetUpsertWithWhereUniqueNestedInput!]
-  delete: [BudgetWhereUniqueInput!]
-  connect: [BudgetWhereUniqueInput!]
-  set: [BudgetWhereUniqueInput!]
-  disconnect: [BudgetWhereUniqueInput!]
-  deleteMany: [BudgetScalarWhereInput!]
-  updateMany: [BudgetUpdateManyWithWhereNestedInput!]
-}
-
 input BudgetUpdateManyMutationInput {
   total: Float
   startDate: DateTime
@@ -194,20 +186,41 @@ input BudgetUpdateManyMutationInput {
   savingsTarget: Float
 }
 
+input BudgetUpdateManyWithoutPostedByInput {
+  create: [BudgetCreateWithoutPostedByInput!]
+  delete: [BudgetWhereUniqueInput!]
+  connect: [BudgetWhereUniqueInput!]
+  set: [BudgetWhereUniqueInput!]
+  disconnect: [BudgetWhereUniqueInput!]
+  update: [BudgetUpdateWithWhereUniqueWithoutPostedByInput!]
+  upsert: [BudgetUpsertWithWhereUniqueWithoutPostedByInput!]
+  deleteMany: [BudgetScalarWhereInput!]
+  updateMany: [BudgetUpdateManyWithWhereNestedInput!]
+}
+
 input BudgetUpdateManyWithWhereNestedInput {
   where: BudgetScalarWhereInput!
   data: BudgetUpdateManyDataInput!
 }
 
-input BudgetUpdateWithWhereUniqueNestedInput {
-  where: BudgetWhereUniqueInput!
-  data: BudgetUpdateDataInput!
+input BudgetUpdateWithoutPostedByDataInput {
+  total: Float
+  startDate: DateTime
+  endDate: DateTime
+  savingsTarget: Float
+  expenses: ExpenseUpdateManyInput
+  savings: SavingsUpdateManyInput
 }
 
-input BudgetUpsertWithWhereUniqueNestedInput {
+input BudgetUpdateWithWhereUniqueWithoutPostedByInput {
   where: BudgetWhereUniqueInput!
-  update: BudgetUpdateDataInput!
-  create: BudgetCreateInput!
+  data: BudgetUpdateWithoutPostedByDataInput!
+}
+
+input BudgetUpsertWithWhereUniqueWithoutPostedByInput {
+  where: BudgetWhereUniqueInput!
+  update: BudgetUpdateWithoutPostedByDataInput!
+  create: BudgetCreateWithoutPostedByInput!
 }
 
 input BudgetWhereInput {
@@ -263,6 +276,7 @@ input BudgetWhereInput {
   savings_every: SavingsWhereInput
   savings_some: SavingsWhereInput
   savings_none: SavingsWhereInput
+  postedBy: UserWhereInput
   AND: [BudgetWhereInput!]
   OR: [BudgetWhereInput!]
   NOT: [BudgetWhereInput!]
@@ -822,7 +836,20 @@ input UserCreateInput {
   lastName: String!
   email: String!
   password: String!
-  budgets: BudgetCreateManyInput
+  budgets: BudgetCreateManyWithoutPostedByInput
+}
+
+input UserCreateOneWithoutBudgetsInput {
+  create: UserCreateWithoutBudgetsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutBudgetsInput {
+  id: ID
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
 }
 
 type UserEdge {
@@ -874,7 +901,7 @@ input UserUpdateInput {
   lastName: String
   email: String
   password: String
-  budgets: BudgetUpdateManyInput
+  budgets: BudgetUpdateManyWithoutPostedByInput
 }
 
 input UserUpdateManyMutationInput {
@@ -882,6 +909,27 @@ input UserUpdateManyMutationInput {
   lastName: String
   email: String
   password: String
+}
+
+input UserUpdateOneWithoutBudgetsInput {
+  create: UserCreateWithoutBudgetsInput
+  update: UserUpdateWithoutBudgetsDataInput
+  upsert: UserUpsertWithoutBudgetsInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutBudgetsDataInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+}
+
+input UserUpsertWithoutBudgetsInput {
+  update: UserUpdateWithoutBudgetsDataInput!
+  create: UserCreateWithoutBudgetsInput!
 }
 
 input UserWhereInput {

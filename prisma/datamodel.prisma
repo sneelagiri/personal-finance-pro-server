@@ -15,6 +15,7 @@ type Budget {
   savingsTarget: Float!
   expenses: [Expense!]!
   savings: [Savings!]!
+  postedBy: User
 }
 
 type Expense {

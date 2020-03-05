@@ -429,23 +429,11 @@ export interface BudgetWhereInput {
   savings_every?: Maybe<SavingsWhereInput>;
   savings_some?: Maybe<SavingsWhereInput>;
   savings_none?: Maybe<SavingsWhereInput>;
+  postedBy?: Maybe<UserWhereInput>;
   AND?: Maybe<BudgetWhereInput[] | BudgetWhereInput>;
   OR?: Maybe<BudgetWhereInput[] | BudgetWhereInput>;
   NOT?: Maybe<BudgetWhereInput[] | BudgetWhereInput>;
 }
-
-export type ExpenseWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export type SavingsWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  email?: Maybe<String>;
-}>;
 
 export interface UserWhereInput {
   id?: Maybe<ID_Input>;
@@ -526,6 +514,19 @@ export interface UserWhereInput {
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
+export type ExpenseWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export type SavingsWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  email?: Maybe<String>;
+}>;
+
 export interface BudgetCreateInput {
   id?: Maybe<ID_Input>;
   total: Float;
@@ -534,6 +535,7 @@ export interface BudgetCreateInput {
   savingsTarget: Float;
   expenses?: Maybe<ExpenseCreateManyInput>;
   savings?: Maybe<SavingsCreateManyInput>;
+  postedBy?: Maybe<UserCreateOneWithoutBudgetsInput>;
 }
 
 export interface ExpenseCreateManyInput {
@@ -560,6 +562,19 @@ export interface SavingsCreateInput {
   monthAmount: Float;
 }
 
+export interface UserCreateOneWithoutBudgetsInput {
+  create?: Maybe<UserCreateWithoutBudgetsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutBudgetsInput {
+  id?: Maybe<ID_Input>;
+  firstName: String;
+  lastName: String;
+  email: String;
+  password: String;
+}
+
 export interface BudgetUpdateInput {
   total?: Maybe<Float>;
   startDate?: Maybe<DateTimeInput>;
@@ -567,6 +582,7 @@ export interface BudgetUpdateInput {
   savingsTarget?: Maybe<Float>;
   expenses?: Maybe<ExpenseUpdateManyInput>;
   savings?: Maybe<SavingsUpdateManyInput>;
+  postedBy?: Maybe<UserUpdateOneWithoutBudgetsInput>;
 }
 
 export interface ExpenseUpdateManyInput {
@@ -773,6 +789,27 @@ export interface SavingsUpdateManyDataInput {
   monthAmount?: Maybe<Float>;
 }
 
+export interface UserUpdateOneWithoutBudgetsInput {
+  create?: Maybe<UserCreateWithoutBudgetsInput>;
+  update?: Maybe<UserUpdateWithoutBudgetsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutBudgetsInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutBudgetsDataInput {
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+}
+
+export interface UserUpsertWithoutBudgetsInput {
+  update: UserUpdateWithoutBudgetsDataInput;
+  create: UserCreateWithoutBudgetsInput;
+}
+
 export interface BudgetUpdateManyMutationInput {
   total?: Maybe<Float>;
   startDate?: Maybe<DateTimeInput>;
@@ -810,12 +847,24 @@ export interface UserCreateInput {
   lastName: String;
   email: String;
   password: String;
-  budgets?: Maybe<BudgetCreateManyInput>;
+  budgets?: Maybe<BudgetCreateManyWithoutPostedByInput>;
 }
 
-export interface BudgetCreateManyInput {
-  create?: Maybe<BudgetCreateInput[] | BudgetCreateInput>;
+export interface BudgetCreateManyWithoutPostedByInput {
+  create?: Maybe<
+    BudgetCreateWithoutPostedByInput[] | BudgetCreateWithoutPostedByInput
+  >;
   connect?: Maybe<BudgetWhereUniqueInput[] | BudgetWhereUniqueInput>;
+}
+
+export interface BudgetCreateWithoutPostedByInput {
+  id?: Maybe<ID_Input>;
+  total: Float;
+  startDate: DateTimeInput;
+  endDate: DateTimeInput;
+  savingsTarget: Float;
+  expenses?: Maybe<ExpenseCreateManyInput>;
+  savings?: Maybe<SavingsCreateManyInput>;
 }
 
 export interface UserUpdateInput {
@@ -823,23 +872,25 @@ export interface UserUpdateInput {
   lastName?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
-  budgets?: Maybe<BudgetUpdateManyInput>;
+  budgets?: Maybe<BudgetUpdateManyWithoutPostedByInput>;
 }
 
-export interface BudgetUpdateManyInput {
-  create?: Maybe<BudgetCreateInput[] | BudgetCreateInput>;
-  update?: Maybe<
-    | BudgetUpdateWithWhereUniqueNestedInput[]
-    | BudgetUpdateWithWhereUniqueNestedInput
-  >;
-  upsert?: Maybe<
-    | BudgetUpsertWithWhereUniqueNestedInput[]
-    | BudgetUpsertWithWhereUniqueNestedInput
+export interface BudgetUpdateManyWithoutPostedByInput {
+  create?: Maybe<
+    BudgetCreateWithoutPostedByInput[] | BudgetCreateWithoutPostedByInput
   >;
   delete?: Maybe<BudgetWhereUniqueInput[] | BudgetWhereUniqueInput>;
   connect?: Maybe<BudgetWhereUniqueInput[] | BudgetWhereUniqueInput>;
   set?: Maybe<BudgetWhereUniqueInput[] | BudgetWhereUniqueInput>;
   disconnect?: Maybe<BudgetWhereUniqueInput[] | BudgetWhereUniqueInput>;
+  update?: Maybe<
+    | BudgetUpdateWithWhereUniqueWithoutPostedByInput[]
+    | BudgetUpdateWithWhereUniqueWithoutPostedByInput
+  >;
+  upsert?: Maybe<
+    | BudgetUpsertWithWhereUniqueWithoutPostedByInput[]
+    | BudgetUpsertWithWhereUniqueWithoutPostedByInput
+  >;
   deleteMany?: Maybe<BudgetScalarWhereInput[] | BudgetScalarWhereInput>;
   updateMany?: Maybe<
     | BudgetUpdateManyWithWhereNestedInput[]
@@ -847,12 +898,12 @@ export interface BudgetUpdateManyInput {
   >;
 }
 
-export interface BudgetUpdateWithWhereUniqueNestedInput {
+export interface BudgetUpdateWithWhereUniqueWithoutPostedByInput {
   where: BudgetWhereUniqueInput;
-  data: BudgetUpdateDataInput;
+  data: BudgetUpdateWithoutPostedByDataInput;
 }
 
-export interface BudgetUpdateDataInput {
+export interface BudgetUpdateWithoutPostedByDataInput {
   total?: Maybe<Float>;
   startDate?: Maybe<DateTimeInput>;
   endDate?: Maybe<DateTimeInput>;
@@ -861,10 +912,10 @@ export interface BudgetUpdateDataInput {
   savings?: Maybe<SavingsUpdateManyInput>;
 }
 
-export interface BudgetUpsertWithWhereUniqueNestedInput {
+export interface BudgetUpsertWithWhereUniqueWithoutPostedByInput {
   where: BudgetWhereUniqueInput;
-  update: BudgetUpdateDataInput;
-  create: BudgetCreateInput;
+  update: BudgetUpdateWithoutPostedByDataInput;
+  create: BudgetCreateWithoutPostedByInput;
 }
 
 export interface BudgetScalarWhereInput {
@@ -1018,6 +1069,7 @@ export interface BudgetPromise extends Promise<Budget>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  postedBy: <T = UserPromise>() => T;
 }
 
 export interface BudgetSubscription
@@ -1046,6 +1098,7 @@ export interface BudgetSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  postedBy: <T = UserSubscription>() => T;
 }
 
 export interface BudgetNullablePromise
@@ -1074,6 +1127,7 @@ export interface BudgetNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  postedBy: <T = UserPromise>() => T;
 }
 
 export interface Expense {
@@ -1138,6 +1192,69 @@ export interface SavingsNullablePromise
   total: () => Promise<Float>;
   month: () => Promise<String>;
   monthAmount: () => Promise<Float>;
+}
+
+export interface User {
+  id: ID_Output;
+  firstName: String;
+  lastName: String;
+  email: String;
+  password: String;
+}
+
+export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  firstName: () => Promise<String>;
+  lastName: () => Promise<String>;
+  email: () => Promise<String>;
+  password: () => Promise<String>;
+  budgets: <T = FragmentableArray<Budget>>(args?: {
+    where?: BudgetWhereInput;
+    orderBy?: BudgetOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  firstName: () => Promise<AsyncIterator<String>>;
+  lastName: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  budgets: <T = Promise<AsyncIterator<BudgetSubscription>>>(args?: {
+    where?: BudgetWhereInput;
+    orderBy?: BudgetOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface UserNullablePromise
+  extends Promise<User | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  firstName: () => Promise<String>;
+  lastName: () => Promise<String>;
+  email: () => Promise<String>;
+  password: () => Promise<String>;
+  budgets: <T = FragmentableArray<Budget>>(args?: {
+    where?: BudgetWhereInput;
+    orderBy?: BudgetOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface BudgetConnection {
@@ -1323,69 +1440,6 @@ export interface AggregateSavingsSubscription
   extends Promise<AsyncIterator<AggregateSavings>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface User {
-  id: ID_Output;
-  firstName: String;
-  lastName: String;
-  email: String;
-  password: String;
-}
-
-export interface UserPromise extends Promise<User>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  firstName: () => Promise<String>;
-  lastName: () => Promise<String>;
-  email: () => Promise<String>;
-  password: () => Promise<String>;
-  budgets: <T = FragmentableArray<Budget>>(args?: {
-    where?: BudgetWhereInput;
-    orderBy?: BudgetOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  firstName: () => Promise<AsyncIterator<String>>;
-  lastName: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
-  password: () => Promise<AsyncIterator<String>>;
-  budgets: <T = Promise<AsyncIterator<BudgetSubscription>>>(args?: {
-    where?: BudgetWhereInput;
-    orderBy?: BudgetOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface UserNullablePromise
-  extends Promise<User | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  firstName: () => Promise<String>;
-  lastName: () => Promise<String>;
-  email: () => Promise<String>;
-  password: () => Promise<String>;
-  budgets: <T = FragmentableArray<Budget>>(args?: {
-    where?: BudgetWhereInput;
-    orderBy?: BudgetOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
 }
 
 export interface UserConnection {
