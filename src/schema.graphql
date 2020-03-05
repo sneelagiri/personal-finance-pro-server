@@ -68,6 +68,7 @@ type Budget {
   expenses: [Expense!]!
   savings: [Savings!]!
   createdAt: DateTime!
+  postedBy: User
 }
 
 type Expense {
