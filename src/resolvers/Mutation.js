@@ -42,8 +42,49 @@ function postBudget(parent, args, context) {
   });
 }
 
+async function postExpense(parent, args, context) {
+  const userId = getUserId(context);
+  const expense = await context.prisma.createExpense({
+    expenseAmount: args.expenseAmount,
+    expenseDesc: args.expenseDesc,
+    expenseCategory: args.expenseCategory,
+    user: { connect: { id: userId } },
+    budget: { connect: { id: args.budgetId } }
+  });
+  const budget = await context.prisma.budget({
+    id: args.budgetId
+  });
+  const allExpenses = await context.prisma.expenses({
+    where: {
+      user: {
+        id: userId
+      },
+      budget: {
+        id: args.budgetId
+      }
+    }
+  });
+  const totalExpenses = allExpenses.reduce((acc, curr) => {
+    if (curr.expenseAmount) {
+      return (acc = acc + curr.expenseAmount);
+    }
+  }, 0.0);
+  const remainingBudget = budget.total - totalExpenses;
+  context.prisma.updateBudget({
+    data: {
+      remainingAmount: remainingBudget,
+      totalExpenses: totalExpenses
+    },
+    where: {
+      id: args.budgetId
+    }
+  });
+  return expense;
+}
+
 module.exports = {
   signup,
   login,
-  postBudget
+  postBudget,
+  postExpense
 };
