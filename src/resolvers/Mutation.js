@@ -31,7 +31,19 @@ async function login(parent, args, context) {
   };
 }
 
+function postBudget(parent, args, context) {
+  const userId = getUserId(context);
+  return context.prisma.createBudget({
+    total: args.total,
+    startDate: args.startDate,
+    endDate: args.endDate,
+    savingsTarget: args.savingsTarget,
+    postedBy: { connect: { id: userId } }
+  });
+}
+
 module.exports = {
   signup,
-  login
+  login,
+  postBudget
 };
