@@ -31,12 +31,13 @@ async function login(parent, args, context) {
 }
 
 function postBudget(parent, args, context) {
+  const { total, startDate, endDate, savingsTarget } = args;
   const userId = getUserId(context);
   return context.prisma.createBudget({
-    total: args.total,
-    startDate: args.startDate,
-    endDate: args.endDate,
-    savingsTarget: args.savingsTarget,
+    total: total,
+    startDate: startDate,
+    endDate: endDate,
+    savingsTarget: savingsTarget,
     postedBy: { connect: { id: userId } }
   });
 }
@@ -65,8 +66,9 @@ async function postExpense(parent, args, context) {
   });
   const totalExpenses = allExpenses.reduce((acc, curr) => {
     if (curr.expenseAmount) {
-      return (acc = acc + curr.expenseAmount);
+      return acc + curr.expenseAmount;
     }
+    return acc;
   }, 0.0);
   const remainingBudget = budget.total - totalExpenses;
   context.prisma.updateBudget({
@@ -116,7 +118,7 @@ async function postSavings(parent, args, context) {
     },
     orderBy: "endDate_DESC"
   });
-  budgets.map(async budget => {
+  budgets.forEach(async budget => {
     const allSavings = await context.prisma.savingses({
       where: {
         user: {
