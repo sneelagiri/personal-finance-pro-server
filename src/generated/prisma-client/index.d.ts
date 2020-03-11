@@ -218,6 +218,24 @@ export interface ClientConstructor<T> {
  * Types
  */
 
+export type BudgetOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "total_ASC"
+  | "total_DESC"
+  | "startDate_ASC"
+  | "startDate_DESC"
+  | "endDate_ASC"
+  | "endDate_DESC"
+  | "savingsTarget_ASC"
+  | "savingsTarget_DESC"
+  | "totalExpenses_ASC"
+  | "totalExpenses_DESC"
+  | "remainingAmount_ASC"
+  | "remainingAmount_DESC"
+  | "totalSavings_ASC"
+  | "totalSavings_DESC";
+
 export type ExpenseOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -231,24 +249,8 @@ export type ExpenseOrderByInput =
 export type SavingsOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "total_ASC"
-  | "total_DESC"
-  | "month_ASC"
-  | "month_DESC"
-  | "monthAmount_ASC"
-  | "monthAmount_DESC";
-
-export type BudgetOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "total_ASC"
-  | "total_DESC"
-  | "startDate_ASC"
-  | "startDate_DESC"
-  | "endDate_ASC"
-  | "endDate_DESC"
-  | "savingsTarget_ASC"
-  | "savingsTarget_DESC";
+  | "amount_ASC"
+  | "amount_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -266,115 +268,7 @@ export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
 export type BudgetWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
-  startDate?: Maybe<DateTimeInput>;
-  endDate?: Maybe<DateTimeInput>;
 }>;
-
-export interface ExpenseWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  expenseAmount?: Maybe<Float>;
-  expenseAmount_not?: Maybe<Float>;
-  expenseAmount_in?: Maybe<Float[] | Float>;
-  expenseAmount_not_in?: Maybe<Float[] | Float>;
-  expenseAmount_lt?: Maybe<Float>;
-  expenseAmount_lte?: Maybe<Float>;
-  expenseAmount_gt?: Maybe<Float>;
-  expenseAmount_gte?: Maybe<Float>;
-  expenseDesc?: Maybe<String>;
-  expenseDesc_not?: Maybe<String>;
-  expenseDesc_in?: Maybe<String[] | String>;
-  expenseDesc_not_in?: Maybe<String[] | String>;
-  expenseDesc_lt?: Maybe<String>;
-  expenseDesc_lte?: Maybe<String>;
-  expenseDesc_gt?: Maybe<String>;
-  expenseDesc_gte?: Maybe<String>;
-  expenseDesc_contains?: Maybe<String>;
-  expenseDesc_not_contains?: Maybe<String>;
-  expenseDesc_starts_with?: Maybe<String>;
-  expenseDesc_not_starts_with?: Maybe<String>;
-  expenseDesc_ends_with?: Maybe<String>;
-  expenseDesc_not_ends_with?: Maybe<String>;
-  expenseCategory?: Maybe<String>;
-  expenseCategory_not?: Maybe<String>;
-  expenseCategory_in?: Maybe<String[] | String>;
-  expenseCategory_not_in?: Maybe<String[] | String>;
-  expenseCategory_lt?: Maybe<String>;
-  expenseCategory_lte?: Maybe<String>;
-  expenseCategory_gt?: Maybe<String>;
-  expenseCategory_gte?: Maybe<String>;
-  expenseCategory_contains?: Maybe<String>;
-  expenseCategory_not_contains?: Maybe<String>;
-  expenseCategory_starts_with?: Maybe<String>;
-  expenseCategory_not_starts_with?: Maybe<String>;
-  expenseCategory_ends_with?: Maybe<String>;
-  expenseCategory_not_ends_with?: Maybe<String>;
-  AND?: Maybe<ExpenseWhereInput[] | ExpenseWhereInput>;
-  OR?: Maybe<ExpenseWhereInput[] | ExpenseWhereInput>;
-  NOT?: Maybe<ExpenseWhereInput[] | ExpenseWhereInput>;
-}
-
-export interface SavingsWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  total?: Maybe<Float>;
-  total_not?: Maybe<Float>;
-  total_in?: Maybe<Float[] | Float>;
-  total_not_in?: Maybe<Float[] | Float>;
-  total_lt?: Maybe<Float>;
-  total_lte?: Maybe<Float>;
-  total_gt?: Maybe<Float>;
-  total_gte?: Maybe<Float>;
-  month?: Maybe<String>;
-  month_not?: Maybe<String>;
-  month_in?: Maybe<String[] | String>;
-  month_not_in?: Maybe<String[] | String>;
-  month_lt?: Maybe<String>;
-  month_lte?: Maybe<String>;
-  month_gt?: Maybe<String>;
-  month_gte?: Maybe<String>;
-  month_contains?: Maybe<String>;
-  month_not_contains?: Maybe<String>;
-  month_starts_with?: Maybe<String>;
-  month_not_starts_with?: Maybe<String>;
-  month_ends_with?: Maybe<String>;
-  month_not_ends_with?: Maybe<String>;
-  monthAmount?: Maybe<Float>;
-  monthAmount_not?: Maybe<Float>;
-  monthAmount_in?: Maybe<Float[] | Float>;
-  monthAmount_not_in?: Maybe<Float[] | Float>;
-  monthAmount_lt?: Maybe<Float>;
-  monthAmount_lte?: Maybe<Float>;
-  monthAmount_gt?: Maybe<Float>;
-  monthAmount_gte?: Maybe<Float>;
-  AND?: Maybe<SavingsWhereInput[] | SavingsWhereInput>;
-  OR?: Maybe<SavingsWhereInput[] | SavingsWhereInput>;
-  NOT?: Maybe<SavingsWhereInput[] | SavingsWhereInput>;
-}
 
 export interface BudgetWhereInput {
   id?: Maybe<ID_Input>;
@@ -423,29 +317,39 @@ export interface BudgetWhereInput {
   savingsTarget_lte?: Maybe<Float>;
   savingsTarget_gt?: Maybe<Float>;
   savingsTarget_gte?: Maybe<Float>;
+  postedBy?: Maybe<UserWhereInput>;
+  savings?: Maybe<SavingsWhereInput>;
   expenses_every?: Maybe<ExpenseWhereInput>;
   expenses_some?: Maybe<ExpenseWhereInput>;
   expenses_none?: Maybe<ExpenseWhereInput>;
-  savings_every?: Maybe<SavingsWhereInput>;
-  savings_some?: Maybe<SavingsWhereInput>;
-  savings_none?: Maybe<SavingsWhereInput>;
+  totalExpenses?: Maybe<Float>;
+  totalExpenses_not?: Maybe<Float>;
+  totalExpenses_in?: Maybe<Float[] | Float>;
+  totalExpenses_not_in?: Maybe<Float[] | Float>;
+  totalExpenses_lt?: Maybe<Float>;
+  totalExpenses_lte?: Maybe<Float>;
+  totalExpenses_gt?: Maybe<Float>;
+  totalExpenses_gte?: Maybe<Float>;
+  remainingAmount?: Maybe<Float>;
+  remainingAmount_not?: Maybe<Float>;
+  remainingAmount_in?: Maybe<Float[] | Float>;
+  remainingAmount_not_in?: Maybe<Float[] | Float>;
+  remainingAmount_lt?: Maybe<Float>;
+  remainingAmount_lte?: Maybe<Float>;
+  remainingAmount_gt?: Maybe<Float>;
+  remainingAmount_gte?: Maybe<Float>;
+  totalSavings?: Maybe<Float>;
+  totalSavings_not?: Maybe<Float>;
+  totalSavings_in?: Maybe<Float[] | Float>;
+  totalSavings_not_in?: Maybe<Float[] | Float>;
+  totalSavings_lt?: Maybe<Float>;
+  totalSavings_lte?: Maybe<Float>;
+  totalSavings_gt?: Maybe<Float>;
+  totalSavings_gte?: Maybe<Float>;
   AND?: Maybe<BudgetWhereInput[] | BudgetWhereInput>;
   OR?: Maybe<BudgetWhereInput[] | BudgetWhereInput>;
   NOT?: Maybe<BudgetWhereInput[] | BudgetWhereInput>;
 }
-
-export type ExpenseWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export type SavingsWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  email?: Maybe<String>;
-}>;
 
 export interface UserWhereInput {
   id?: Maybe<ID_Input>;
@@ -526,38 +430,192 @@ export interface UserWhereInput {
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
+export interface SavingsWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  amount?: Maybe<Float>;
+  amount_not?: Maybe<Float>;
+  amount_in?: Maybe<Float[] | Float>;
+  amount_not_in?: Maybe<Float[] | Float>;
+  amount_lt?: Maybe<Float>;
+  amount_lte?: Maybe<Float>;
+  amount_gt?: Maybe<Float>;
+  amount_gte?: Maybe<Float>;
+  budget?: Maybe<BudgetWhereInput>;
+  user?: Maybe<UserWhereInput>;
+  AND?: Maybe<SavingsWhereInput[] | SavingsWhereInput>;
+  OR?: Maybe<SavingsWhereInput[] | SavingsWhereInput>;
+  NOT?: Maybe<SavingsWhereInput[] | SavingsWhereInput>;
+}
+
+export interface ExpenseWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  expenseAmount?: Maybe<Float>;
+  expenseAmount_not?: Maybe<Float>;
+  expenseAmount_in?: Maybe<Float[] | Float>;
+  expenseAmount_not_in?: Maybe<Float[] | Float>;
+  expenseAmount_lt?: Maybe<Float>;
+  expenseAmount_lte?: Maybe<Float>;
+  expenseAmount_gt?: Maybe<Float>;
+  expenseAmount_gte?: Maybe<Float>;
+  expenseDesc?: Maybe<String>;
+  expenseDesc_not?: Maybe<String>;
+  expenseDesc_in?: Maybe<String[] | String>;
+  expenseDesc_not_in?: Maybe<String[] | String>;
+  expenseDesc_lt?: Maybe<String>;
+  expenseDesc_lte?: Maybe<String>;
+  expenseDesc_gt?: Maybe<String>;
+  expenseDesc_gte?: Maybe<String>;
+  expenseDesc_contains?: Maybe<String>;
+  expenseDesc_not_contains?: Maybe<String>;
+  expenseDesc_starts_with?: Maybe<String>;
+  expenseDesc_not_starts_with?: Maybe<String>;
+  expenseDesc_ends_with?: Maybe<String>;
+  expenseDesc_not_ends_with?: Maybe<String>;
+  expenseCategory?: Maybe<String>;
+  expenseCategory_not?: Maybe<String>;
+  expenseCategory_in?: Maybe<String[] | String>;
+  expenseCategory_not_in?: Maybe<String[] | String>;
+  expenseCategory_lt?: Maybe<String>;
+  expenseCategory_lte?: Maybe<String>;
+  expenseCategory_gt?: Maybe<String>;
+  expenseCategory_gte?: Maybe<String>;
+  expenseCategory_contains?: Maybe<String>;
+  expenseCategory_not_contains?: Maybe<String>;
+  expenseCategory_starts_with?: Maybe<String>;
+  expenseCategory_not_starts_with?: Maybe<String>;
+  expenseCategory_ends_with?: Maybe<String>;
+  expenseCategory_not_ends_with?: Maybe<String>;
+  budget?: Maybe<BudgetWhereInput>;
+  user?: Maybe<UserWhereInput>;
+  AND?: Maybe<ExpenseWhereInput[] | ExpenseWhereInput>;
+  OR?: Maybe<ExpenseWhereInput[] | ExpenseWhereInput>;
+  NOT?: Maybe<ExpenseWhereInput[] | ExpenseWhereInput>;
+}
+
+export type ExpenseWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export type SavingsWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  email?: Maybe<String>;
+}>;
+
 export interface BudgetCreateInput {
   id?: Maybe<ID_Input>;
   total: Float;
   startDate: DateTimeInput;
   endDate: DateTimeInput;
   savingsTarget: Float;
-  expenses?: Maybe<ExpenseCreateManyInput>;
-  savings?: Maybe<SavingsCreateManyInput>;
+  postedBy?: Maybe<UserCreateOneWithoutBudgetsInput>;
+  savings?: Maybe<SavingsCreateOneWithoutBudgetInput>;
+  expenses?: Maybe<ExpenseCreateManyWithoutBudgetInput>;
+  totalExpenses?: Maybe<Float>;
+  remainingAmount?: Maybe<Float>;
+  totalSavings?: Maybe<Float>;
 }
 
-export interface ExpenseCreateManyInput {
-  create?: Maybe<ExpenseCreateInput[] | ExpenseCreateInput>;
+export interface UserCreateOneWithoutBudgetsInput {
+  create?: Maybe<UserCreateWithoutBudgetsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutBudgetsInput {
+  id?: Maybe<ID_Input>;
+  firstName: String;
+  lastName: String;
+  email: String;
+  password: String;
+}
+
+export interface SavingsCreateOneWithoutBudgetInput {
+  create?: Maybe<SavingsCreateWithoutBudgetInput>;
+  connect?: Maybe<SavingsWhereUniqueInput>;
+}
+
+export interface SavingsCreateWithoutBudgetInput {
+  id?: Maybe<ID_Input>;
+  amount: Float;
+  user: UserCreateOneInput;
+}
+
+export interface UserCreateOneInput {
+  create?: Maybe<UserCreateInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  firstName: String;
+  lastName: String;
+  email: String;
+  password: String;
+  budgets?: Maybe<BudgetCreateManyWithoutPostedByInput>;
+}
+
+export interface BudgetCreateManyWithoutPostedByInput {
+  create?: Maybe<
+    BudgetCreateWithoutPostedByInput[] | BudgetCreateWithoutPostedByInput
+  >;
+  connect?: Maybe<BudgetWhereUniqueInput[] | BudgetWhereUniqueInput>;
+}
+
+export interface BudgetCreateWithoutPostedByInput {
+  id?: Maybe<ID_Input>;
+  total: Float;
+  startDate: DateTimeInput;
+  endDate: DateTimeInput;
+  savingsTarget: Float;
+  savings?: Maybe<SavingsCreateOneWithoutBudgetInput>;
+  expenses?: Maybe<ExpenseCreateManyWithoutBudgetInput>;
+  totalExpenses?: Maybe<Float>;
+  remainingAmount?: Maybe<Float>;
+  totalSavings?: Maybe<Float>;
+}
+
+export interface ExpenseCreateManyWithoutBudgetInput {
+  create?: Maybe<
+    ExpenseCreateWithoutBudgetInput[] | ExpenseCreateWithoutBudgetInput
+  >;
   connect?: Maybe<ExpenseWhereUniqueInput[] | ExpenseWhereUniqueInput>;
 }
 
-export interface ExpenseCreateInput {
+export interface ExpenseCreateWithoutBudgetInput {
   id?: Maybe<ID_Input>;
   expenseAmount: Float;
   expenseDesc: String;
   expenseCategory: String;
-}
-
-export interface SavingsCreateManyInput {
-  create?: Maybe<SavingsCreateInput[] | SavingsCreateInput>;
-  connect?: Maybe<SavingsWhereUniqueInput[] | SavingsWhereUniqueInput>;
-}
-
-export interface SavingsCreateInput {
-  id?: Maybe<ID_Input>;
-  total: Float;
-  month: String;
-  monthAmount: Float;
+  user: UserCreateOneInput;
 }
 
 export interface BudgetUpdateInput {
@@ -565,24 +623,120 @@ export interface BudgetUpdateInput {
   startDate?: Maybe<DateTimeInput>;
   endDate?: Maybe<DateTimeInput>;
   savingsTarget?: Maybe<Float>;
-  expenses?: Maybe<ExpenseUpdateManyInput>;
-  savings?: Maybe<SavingsUpdateManyInput>;
+  postedBy?: Maybe<UserUpdateOneWithoutBudgetsInput>;
+  savings?: Maybe<SavingsUpdateOneWithoutBudgetInput>;
+  expenses?: Maybe<ExpenseUpdateManyWithoutBudgetInput>;
+  totalExpenses?: Maybe<Float>;
+  remainingAmount?: Maybe<Float>;
+  totalSavings?: Maybe<Float>;
 }
 
-export interface ExpenseUpdateManyInput {
-  create?: Maybe<ExpenseCreateInput[] | ExpenseCreateInput>;
+export interface UserUpdateOneWithoutBudgetsInput {
+  create?: Maybe<UserCreateWithoutBudgetsInput>;
+  update?: Maybe<UserUpdateWithoutBudgetsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutBudgetsInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutBudgetsDataInput {
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+}
+
+export interface UserUpsertWithoutBudgetsInput {
+  update: UserUpdateWithoutBudgetsDataInput;
+  create: UserCreateWithoutBudgetsInput;
+}
+
+export interface SavingsUpdateOneWithoutBudgetInput {
+  create?: Maybe<SavingsCreateWithoutBudgetInput>;
+  update?: Maybe<SavingsUpdateWithoutBudgetDataInput>;
+  upsert?: Maybe<SavingsUpsertWithoutBudgetInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<SavingsWhereUniqueInput>;
+}
+
+export interface SavingsUpdateWithoutBudgetDataInput {
+  amount?: Maybe<Float>;
+  user?: Maybe<UserUpdateOneRequiredInput>;
+}
+
+export interface UserUpdateOneRequiredInput {
+  create?: Maybe<UserCreateInput>;
+  update?: Maybe<UserUpdateDataInput>;
+  upsert?: Maybe<UserUpsertNestedInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateDataInput {
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  budgets?: Maybe<BudgetUpdateManyWithoutPostedByInput>;
+}
+
+export interface BudgetUpdateManyWithoutPostedByInput {
+  create?: Maybe<
+    BudgetCreateWithoutPostedByInput[] | BudgetCreateWithoutPostedByInput
+  >;
+  delete?: Maybe<BudgetWhereUniqueInput[] | BudgetWhereUniqueInput>;
+  connect?: Maybe<BudgetWhereUniqueInput[] | BudgetWhereUniqueInput>;
+  set?: Maybe<BudgetWhereUniqueInput[] | BudgetWhereUniqueInput>;
+  disconnect?: Maybe<BudgetWhereUniqueInput[] | BudgetWhereUniqueInput>;
   update?: Maybe<
-    | ExpenseUpdateWithWhereUniqueNestedInput[]
-    | ExpenseUpdateWithWhereUniqueNestedInput
+    | BudgetUpdateWithWhereUniqueWithoutPostedByInput[]
+    | BudgetUpdateWithWhereUniqueWithoutPostedByInput
   >;
   upsert?: Maybe<
-    | ExpenseUpsertWithWhereUniqueNestedInput[]
-    | ExpenseUpsertWithWhereUniqueNestedInput
+    | BudgetUpsertWithWhereUniqueWithoutPostedByInput[]
+    | BudgetUpsertWithWhereUniqueWithoutPostedByInput
+  >;
+  deleteMany?: Maybe<BudgetScalarWhereInput[] | BudgetScalarWhereInput>;
+  updateMany?: Maybe<
+    | BudgetUpdateManyWithWhereNestedInput[]
+    | BudgetUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface BudgetUpdateWithWhereUniqueWithoutPostedByInput {
+  where: BudgetWhereUniqueInput;
+  data: BudgetUpdateWithoutPostedByDataInput;
+}
+
+export interface BudgetUpdateWithoutPostedByDataInput {
+  total?: Maybe<Float>;
+  startDate?: Maybe<DateTimeInput>;
+  endDate?: Maybe<DateTimeInput>;
+  savingsTarget?: Maybe<Float>;
+  savings?: Maybe<SavingsUpdateOneWithoutBudgetInput>;
+  expenses?: Maybe<ExpenseUpdateManyWithoutBudgetInput>;
+  totalExpenses?: Maybe<Float>;
+  remainingAmount?: Maybe<Float>;
+  totalSavings?: Maybe<Float>;
+}
+
+export interface ExpenseUpdateManyWithoutBudgetInput {
+  create?: Maybe<
+    ExpenseCreateWithoutBudgetInput[] | ExpenseCreateWithoutBudgetInput
   >;
   delete?: Maybe<ExpenseWhereUniqueInput[] | ExpenseWhereUniqueInput>;
   connect?: Maybe<ExpenseWhereUniqueInput[] | ExpenseWhereUniqueInput>;
   set?: Maybe<ExpenseWhereUniqueInput[] | ExpenseWhereUniqueInput>;
   disconnect?: Maybe<ExpenseWhereUniqueInput[] | ExpenseWhereUniqueInput>;
+  update?: Maybe<
+    | ExpenseUpdateWithWhereUniqueWithoutBudgetInput[]
+    | ExpenseUpdateWithWhereUniqueWithoutBudgetInput
+  >;
+  upsert?: Maybe<
+    | ExpenseUpsertWithWhereUniqueWithoutBudgetInput[]
+    | ExpenseUpsertWithWhereUniqueWithoutBudgetInput
+  >;
   deleteMany?: Maybe<ExpenseScalarWhereInput[] | ExpenseScalarWhereInput>;
   updateMany?: Maybe<
     | ExpenseUpdateManyWithWhereNestedInput[]
@@ -590,21 +744,22 @@ export interface ExpenseUpdateManyInput {
   >;
 }
 
-export interface ExpenseUpdateWithWhereUniqueNestedInput {
+export interface ExpenseUpdateWithWhereUniqueWithoutBudgetInput {
   where: ExpenseWhereUniqueInput;
-  data: ExpenseUpdateDataInput;
+  data: ExpenseUpdateWithoutBudgetDataInput;
 }
 
-export interface ExpenseUpdateDataInput {
+export interface ExpenseUpdateWithoutBudgetDataInput {
   expenseAmount?: Maybe<Float>;
   expenseDesc?: Maybe<String>;
   expenseCategory?: Maybe<String>;
+  user?: Maybe<UserUpdateOneRequiredInput>;
 }
 
-export interface ExpenseUpsertWithWhereUniqueNestedInput {
+export interface ExpenseUpsertWithWhereUniqueWithoutBudgetInput {
   where: ExpenseWhereUniqueInput;
-  update: ExpenseUpdateDataInput;
-  create: ExpenseCreateInput;
+  update: ExpenseUpdateWithoutBudgetDataInput;
+  create: ExpenseCreateWithoutBudgetInput;
 }
 
 export interface ExpenseScalarWhereInput {
@@ -674,197 +829,10 @@ export interface ExpenseUpdateManyDataInput {
   expenseCategory?: Maybe<String>;
 }
 
-export interface SavingsUpdateManyInput {
-  create?: Maybe<SavingsCreateInput[] | SavingsCreateInput>;
-  update?: Maybe<
-    | SavingsUpdateWithWhereUniqueNestedInput[]
-    | SavingsUpdateWithWhereUniqueNestedInput
-  >;
-  upsert?: Maybe<
-    | SavingsUpsertWithWhereUniqueNestedInput[]
-    | SavingsUpsertWithWhereUniqueNestedInput
-  >;
-  delete?: Maybe<SavingsWhereUniqueInput[] | SavingsWhereUniqueInput>;
-  connect?: Maybe<SavingsWhereUniqueInput[] | SavingsWhereUniqueInput>;
-  set?: Maybe<SavingsWhereUniqueInput[] | SavingsWhereUniqueInput>;
-  disconnect?: Maybe<SavingsWhereUniqueInput[] | SavingsWhereUniqueInput>;
-  deleteMany?: Maybe<SavingsScalarWhereInput[] | SavingsScalarWhereInput>;
-  updateMany?: Maybe<
-    | SavingsUpdateManyWithWhereNestedInput[]
-    | SavingsUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface SavingsUpdateWithWhereUniqueNestedInput {
-  where: SavingsWhereUniqueInput;
-  data: SavingsUpdateDataInput;
-}
-
-export interface SavingsUpdateDataInput {
-  total?: Maybe<Float>;
-  month?: Maybe<String>;
-  monthAmount?: Maybe<Float>;
-}
-
-export interface SavingsUpsertWithWhereUniqueNestedInput {
-  where: SavingsWhereUniqueInput;
-  update: SavingsUpdateDataInput;
-  create: SavingsCreateInput;
-}
-
-export interface SavingsScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  total?: Maybe<Float>;
-  total_not?: Maybe<Float>;
-  total_in?: Maybe<Float[] | Float>;
-  total_not_in?: Maybe<Float[] | Float>;
-  total_lt?: Maybe<Float>;
-  total_lte?: Maybe<Float>;
-  total_gt?: Maybe<Float>;
-  total_gte?: Maybe<Float>;
-  month?: Maybe<String>;
-  month_not?: Maybe<String>;
-  month_in?: Maybe<String[] | String>;
-  month_not_in?: Maybe<String[] | String>;
-  month_lt?: Maybe<String>;
-  month_lte?: Maybe<String>;
-  month_gt?: Maybe<String>;
-  month_gte?: Maybe<String>;
-  month_contains?: Maybe<String>;
-  month_not_contains?: Maybe<String>;
-  month_starts_with?: Maybe<String>;
-  month_not_starts_with?: Maybe<String>;
-  month_ends_with?: Maybe<String>;
-  month_not_ends_with?: Maybe<String>;
-  monthAmount?: Maybe<Float>;
-  monthAmount_not?: Maybe<Float>;
-  monthAmount_in?: Maybe<Float[] | Float>;
-  monthAmount_not_in?: Maybe<Float[] | Float>;
-  monthAmount_lt?: Maybe<Float>;
-  monthAmount_lte?: Maybe<Float>;
-  monthAmount_gt?: Maybe<Float>;
-  monthAmount_gte?: Maybe<Float>;
-  AND?: Maybe<SavingsScalarWhereInput[] | SavingsScalarWhereInput>;
-  OR?: Maybe<SavingsScalarWhereInput[] | SavingsScalarWhereInput>;
-  NOT?: Maybe<SavingsScalarWhereInput[] | SavingsScalarWhereInput>;
-}
-
-export interface SavingsUpdateManyWithWhereNestedInput {
-  where: SavingsScalarWhereInput;
-  data: SavingsUpdateManyDataInput;
-}
-
-export interface SavingsUpdateManyDataInput {
-  total?: Maybe<Float>;
-  month?: Maybe<String>;
-  monthAmount?: Maybe<Float>;
-}
-
-export interface BudgetUpdateManyMutationInput {
-  total?: Maybe<Float>;
-  startDate?: Maybe<DateTimeInput>;
-  endDate?: Maybe<DateTimeInput>;
-  savingsTarget?: Maybe<Float>;
-}
-
-export interface ExpenseUpdateInput {
-  expenseAmount?: Maybe<Float>;
-  expenseDesc?: Maybe<String>;
-  expenseCategory?: Maybe<String>;
-}
-
-export interface ExpenseUpdateManyMutationInput {
-  expenseAmount?: Maybe<Float>;
-  expenseDesc?: Maybe<String>;
-  expenseCategory?: Maybe<String>;
-}
-
-export interface SavingsUpdateInput {
-  total?: Maybe<Float>;
-  month?: Maybe<String>;
-  monthAmount?: Maybe<Float>;
-}
-
-export interface SavingsUpdateManyMutationInput {
-  total?: Maybe<Float>;
-  month?: Maybe<String>;
-  monthAmount?: Maybe<Float>;
-}
-
-export interface UserCreateInput {
-  id?: Maybe<ID_Input>;
-  firstName: String;
-  lastName: String;
-  email: String;
-  password: String;
-  budgets?: Maybe<BudgetCreateManyInput>;
-}
-
-export interface BudgetCreateManyInput {
-  create?: Maybe<BudgetCreateInput[] | BudgetCreateInput>;
-  connect?: Maybe<BudgetWhereUniqueInput[] | BudgetWhereUniqueInput>;
-}
-
-export interface UserUpdateInput {
-  firstName?: Maybe<String>;
-  lastName?: Maybe<String>;
-  email?: Maybe<String>;
-  password?: Maybe<String>;
-  budgets?: Maybe<BudgetUpdateManyInput>;
-}
-
-export interface BudgetUpdateManyInput {
-  create?: Maybe<BudgetCreateInput[] | BudgetCreateInput>;
-  update?: Maybe<
-    | BudgetUpdateWithWhereUniqueNestedInput[]
-    | BudgetUpdateWithWhereUniqueNestedInput
-  >;
-  upsert?: Maybe<
-    | BudgetUpsertWithWhereUniqueNestedInput[]
-    | BudgetUpsertWithWhereUniqueNestedInput
-  >;
-  delete?: Maybe<BudgetWhereUniqueInput[] | BudgetWhereUniqueInput>;
-  connect?: Maybe<BudgetWhereUniqueInput[] | BudgetWhereUniqueInput>;
-  set?: Maybe<BudgetWhereUniqueInput[] | BudgetWhereUniqueInput>;
-  disconnect?: Maybe<BudgetWhereUniqueInput[] | BudgetWhereUniqueInput>;
-  deleteMany?: Maybe<BudgetScalarWhereInput[] | BudgetScalarWhereInput>;
-  updateMany?: Maybe<
-    | BudgetUpdateManyWithWhereNestedInput[]
-    | BudgetUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface BudgetUpdateWithWhereUniqueNestedInput {
+export interface BudgetUpsertWithWhereUniqueWithoutPostedByInput {
   where: BudgetWhereUniqueInput;
-  data: BudgetUpdateDataInput;
-}
-
-export interface BudgetUpdateDataInput {
-  total?: Maybe<Float>;
-  startDate?: Maybe<DateTimeInput>;
-  endDate?: Maybe<DateTimeInput>;
-  savingsTarget?: Maybe<Float>;
-  expenses?: Maybe<ExpenseUpdateManyInput>;
-  savings?: Maybe<SavingsUpdateManyInput>;
-}
-
-export interface BudgetUpsertWithWhereUniqueNestedInput {
-  where: BudgetWhereUniqueInput;
-  update: BudgetUpdateDataInput;
-  create: BudgetCreateInput;
+  update: BudgetUpdateWithoutPostedByDataInput;
+  create: BudgetCreateWithoutPostedByInput;
 }
 
 export interface BudgetScalarWhereInput {
@@ -914,6 +882,30 @@ export interface BudgetScalarWhereInput {
   savingsTarget_lte?: Maybe<Float>;
   savingsTarget_gt?: Maybe<Float>;
   savingsTarget_gte?: Maybe<Float>;
+  totalExpenses?: Maybe<Float>;
+  totalExpenses_not?: Maybe<Float>;
+  totalExpenses_in?: Maybe<Float[] | Float>;
+  totalExpenses_not_in?: Maybe<Float[] | Float>;
+  totalExpenses_lt?: Maybe<Float>;
+  totalExpenses_lte?: Maybe<Float>;
+  totalExpenses_gt?: Maybe<Float>;
+  totalExpenses_gte?: Maybe<Float>;
+  remainingAmount?: Maybe<Float>;
+  remainingAmount_not?: Maybe<Float>;
+  remainingAmount_in?: Maybe<Float[] | Float>;
+  remainingAmount_not_in?: Maybe<Float[] | Float>;
+  remainingAmount_lt?: Maybe<Float>;
+  remainingAmount_lte?: Maybe<Float>;
+  remainingAmount_gt?: Maybe<Float>;
+  remainingAmount_gte?: Maybe<Float>;
+  totalSavings?: Maybe<Float>;
+  totalSavings_not?: Maybe<Float>;
+  totalSavings_in?: Maybe<Float[] | Float>;
+  totalSavings_not_in?: Maybe<Float[] | Float>;
+  totalSavings_lt?: Maybe<Float>;
+  totalSavings_lte?: Maybe<Float>;
+  totalSavings_gt?: Maybe<Float>;
+  totalSavings_gte?: Maybe<Float>;
   AND?: Maybe<BudgetScalarWhereInput[] | BudgetScalarWhereInput>;
   OR?: Maybe<BudgetScalarWhereInput[] | BudgetScalarWhereInput>;
   NOT?: Maybe<BudgetScalarWhereInput[] | BudgetScalarWhereInput>;
@@ -929,6 +921,161 @@ export interface BudgetUpdateManyDataInput {
   startDate?: Maybe<DateTimeInput>;
   endDate?: Maybe<DateTimeInput>;
   savingsTarget?: Maybe<Float>;
+  totalExpenses?: Maybe<Float>;
+  remainingAmount?: Maybe<Float>;
+  totalSavings?: Maybe<Float>;
+}
+
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
+export interface SavingsUpsertWithoutBudgetInput {
+  update: SavingsUpdateWithoutBudgetDataInput;
+  create: SavingsCreateWithoutBudgetInput;
+}
+
+export interface BudgetUpdateManyMutationInput {
+  total?: Maybe<Float>;
+  startDate?: Maybe<DateTimeInput>;
+  endDate?: Maybe<DateTimeInput>;
+  savingsTarget?: Maybe<Float>;
+  totalExpenses?: Maybe<Float>;
+  remainingAmount?: Maybe<Float>;
+  totalSavings?: Maybe<Float>;
+}
+
+export interface ExpenseCreateInput {
+  id?: Maybe<ID_Input>;
+  expenseAmount: Float;
+  expenseDesc: String;
+  expenseCategory: String;
+  budget: BudgetCreateOneWithoutExpensesInput;
+  user: UserCreateOneInput;
+}
+
+export interface BudgetCreateOneWithoutExpensesInput {
+  create?: Maybe<BudgetCreateWithoutExpensesInput>;
+  connect?: Maybe<BudgetWhereUniqueInput>;
+}
+
+export interface BudgetCreateWithoutExpensesInput {
+  id?: Maybe<ID_Input>;
+  total: Float;
+  startDate: DateTimeInput;
+  endDate: DateTimeInput;
+  savingsTarget: Float;
+  postedBy?: Maybe<UserCreateOneWithoutBudgetsInput>;
+  savings?: Maybe<SavingsCreateOneWithoutBudgetInput>;
+  totalExpenses?: Maybe<Float>;
+  remainingAmount?: Maybe<Float>;
+  totalSavings?: Maybe<Float>;
+}
+
+export interface ExpenseUpdateInput {
+  expenseAmount?: Maybe<Float>;
+  expenseDesc?: Maybe<String>;
+  expenseCategory?: Maybe<String>;
+  budget?: Maybe<BudgetUpdateOneRequiredWithoutExpensesInput>;
+  user?: Maybe<UserUpdateOneRequiredInput>;
+}
+
+export interface BudgetUpdateOneRequiredWithoutExpensesInput {
+  create?: Maybe<BudgetCreateWithoutExpensesInput>;
+  update?: Maybe<BudgetUpdateWithoutExpensesDataInput>;
+  upsert?: Maybe<BudgetUpsertWithoutExpensesInput>;
+  connect?: Maybe<BudgetWhereUniqueInput>;
+}
+
+export interface BudgetUpdateWithoutExpensesDataInput {
+  total?: Maybe<Float>;
+  startDate?: Maybe<DateTimeInput>;
+  endDate?: Maybe<DateTimeInput>;
+  savingsTarget?: Maybe<Float>;
+  postedBy?: Maybe<UserUpdateOneWithoutBudgetsInput>;
+  savings?: Maybe<SavingsUpdateOneWithoutBudgetInput>;
+  totalExpenses?: Maybe<Float>;
+  remainingAmount?: Maybe<Float>;
+  totalSavings?: Maybe<Float>;
+}
+
+export interface BudgetUpsertWithoutExpensesInput {
+  update: BudgetUpdateWithoutExpensesDataInput;
+  create: BudgetCreateWithoutExpensesInput;
+}
+
+export interface ExpenseUpdateManyMutationInput {
+  expenseAmount?: Maybe<Float>;
+  expenseDesc?: Maybe<String>;
+  expenseCategory?: Maybe<String>;
+}
+
+export interface SavingsCreateInput {
+  id?: Maybe<ID_Input>;
+  amount: Float;
+  budget: BudgetCreateOneWithoutSavingsInput;
+  user: UserCreateOneInput;
+}
+
+export interface BudgetCreateOneWithoutSavingsInput {
+  create?: Maybe<BudgetCreateWithoutSavingsInput>;
+  connect?: Maybe<BudgetWhereUniqueInput>;
+}
+
+export interface BudgetCreateWithoutSavingsInput {
+  id?: Maybe<ID_Input>;
+  total: Float;
+  startDate: DateTimeInput;
+  endDate: DateTimeInput;
+  savingsTarget: Float;
+  postedBy?: Maybe<UserCreateOneWithoutBudgetsInput>;
+  expenses?: Maybe<ExpenseCreateManyWithoutBudgetInput>;
+  totalExpenses?: Maybe<Float>;
+  remainingAmount?: Maybe<Float>;
+  totalSavings?: Maybe<Float>;
+}
+
+export interface SavingsUpdateInput {
+  amount?: Maybe<Float>;
+  budget?: Maybe<BudgetUpdateOneRequiredWithoutSavingsInput>;
+  user?: Maybe<UserUpdateOneRequiredInput>;
+}
+
+export interface BudgetUpdateOneRequiredWithoutSavingsInput {
+  create?: Maybe<BudgetCreateWithoutSavingsInput>;
+  update?: Maybe<BudgetUpdateWithoutSavingsDataInput>;
+  upsert?: Maybe<BudgetUpsertWithoutSavingsInput>;
+  connect?: Maybe<BudgetWhereUniqueInput>;
+}
+
+export interface BudgetUpdateWithoutSavingsDataInput {
+  total?: Maybe<Float>;
+  startDate?: Maybe<DateTimeInput>;
+  endDate?: Maybe<DateTimeInput>;
+  savingsTarget?: Maybe<Float>;
+  postedBy?: Maybe<UserUpdateOneWithoutBudgetsInput>;
+  expenses?: Maybe<ExpenseUpdateManyWithoutBudgetInput>;
+  totalExpenses?: Maybe<Float>;
+  remainingAmount?: Maybe<Float>;
+  totalSavings?: Maybe<Float>;
+}
+
+export interface BudgetUpsertWithoutSavingsInput {
+  update: BudgetUpdateWithoutSavingsDataInput;
+  create: BudgetCreateWithoutSavingsInput;
+}
+
+export interface SavingsUpdateManyMutationInput {
+  amount?: Maybe<Float>;
+}
+
+export interface UserUpdateInput {
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  budgets?: Maybe<BudgetUpdateManyWithoutPostedByInput>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -992,6 +1139,9 @@ export interface Budget {
   startDate: DateTimeOutput;
   endDate: DateTimeOutput;
   savingsTarget: Float;
+  totalExpenses?: Float;
+  remainingAmount?: Float;
+  totalSavings?: Float;
 }
 
 export interface BudgetPromise extends Promise<Budget>, Fragmentable {
@@ -1000,6 +1150,8 @@ export interface BudgetPromise extends Promise<Budget>, Fragmentable {
   startDate: () => Promise<DateTimeOutput>;
   endDate: () => Promise<DateTimeOutput>;
   savingsTarget: () => Promise<Float>;
+  postedBy: <T = UserPromise>() => T;
+  savings: <T = SavingsPromise>() => T;
   expenses: <T = FragmentableArray<Expense>>(args?: {
     where?: ExpenseWhereInput;
     orderBy?: ExpenseOrderByInput;
@@ -1009,15 +1161,9 @@ export interface BudgetPromise extends Promise<Budget>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
-  savings: <T = FragmentableArray<Savings>>(args?: {
-    where?: SavingsWhereInput;
-    orderBy?: SavingsOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  totalExpenses: () => Promise<Float>;
+  remainingAmount: () => Promise<Float>;
+  totalSavings: () => Promise<Float>;
 }
 
 export interface BudgetSubscription
@@ -1028,6 +1174,8 @@ export interface BudgetSubscription
   startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   endDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   savingsTarget: () => Promise<AsyncIterator<Float>>;
+  postedBy: <T = UserSubscription>() => T;
+  savings: <T = SavingsSubscription>() => T;
   expenses: <T = Promise<AsyncIterator<ExpenseSubscription>>>(args?: {
     where?: ExpenseWhereInput;
     orderBy?: ExpenseOrderByInput;
@@ -1037,15 +1185,9 @@ export interface BudgetSubscription
     first?: Int;
     last?: Int;
   }) => T;
-  savings: <T = Promise<AsyncIterator<SavingsSubscription>>>(args?: {
-    where?: SavingsWhereInput;
-    orderBy?: SavingsOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  totalExpenses: () => Promise<AsyncIterator<Float>>;
+  remainingAmount: () => Promise<AsyncIterator<Float>>;
+  totalSavings: () => Promise<AsyncIterator<Float>>;
 }
 
 export interface BudgetNullablePromise
@@ -1056,6 +1198,8 @@ export interface BudgetNullablePromise
   startDate: () => Promise<DateTimeOutput>;
   endDate: () => Promise<DateTimeOutput>;
   savingsTarget: () => Promise<Float>;
+  postedBy: <T = UserPromise>() => T;
+  savings: <T = SavingsPromise>() => T;
   expenses: <T = FragmentableArray<Expense>>(args?: {
     where?: ExpenseWhereInput;
     orderBy?: ExpenseOrderByInput;
@@ -1065,15 +1209,102 @@ export interface BudgetNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
-  savings: <T = FragmentableArray<Savings>>(args?: {
-    where?: SavingsWhereInput;
-    orderBy?: SavingsOrderByInput;
+  totalExpenses: () => Promise<Float>;
+  remainingAmount: () => Promise<Float>;
+  totalSavings: () => Promise<Float>;
+}
+
+export interface User {
+  id: ID_Output;
+  firstName: String;
+  lastName: String;
+  email: String;
+  password: String;
+}
+
+export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  firstName: () => Promise<String>;
+  lastName: () => Promise<String>;
+  email: () => Promise<String>;
+  password: () => Promise<String>;
+  budgets: <T = FragmentableArray<Budget>>(args?: {
+    where?: BudgetWhereInput;
+    orderBy?: BudgetOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
   }) => T;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  firstName: () => Promise<AsyncIterator<String>>;
+  lastName: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  budgets: <T = Promise<AsyncIterator<BudgetSubscription>>>(args?: {
+    where?: BudgetWhereInput;
+    orderBy?: BudgetOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface UserNullablePromise
+  extends Promise<User | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  firstName: () => Promise<String>;
+  lastName: () => Promise<String>;
+  email: () => Promise<String>;
+  password: () => Promise<String>;
+  budgets: <T = FragmentableArray<Budget>>(args?: {
+    where?: BudgetWhereInput;
+    orderBy?: BudgetOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface Savings {
+  id: ID_Output;
+  amount: Float;
+}
+
+export interface SavingsPromise extends Promise<Savings>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  amount: () => Promise<Float>;
+  budget: <T = BudgetPromise>() => T;
+  user: <T = UserPromise>() => T;
+}
+
+export interface SavingsSubscription
+  extends Promise<AsyncIterator<Savings>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  amount: () => Promise<AsyncIterator<Float>>;
+  budget: <T = BudgetSubscription>() => T;
+  user: <T = UserSubscription>() => T;
+}
+
+export interface SavingsNullablePromise
+  extends Promise<Savings | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  amount: () => Promise<Float>;
+  budget: <T = BudgetPromise>() => T;
+  user: <T = UserPromise>() => T;
 }
 
 export interface Expense {
@@ -1088,6 +1319,8 @@ export interface ExpensePromise extends Promise<Expense>, Fragmentable {
   expenseAmount: () => Promise<Float>;
   expenseDesc: () => Promise<String>;
   expenseCategory: () => Promise<String>;
+  budget: <T = BudgetPromise>() => T;
+  user: <T = UserPromise>() => T;
 }
 
 export interface ExpenseSubscription
@@ -1097,6 +1330,8 @@ export interface ExpenseSubscription
   expenseAmount: () => Promise<AsyncIterator<Float>>;
   expenseDesc: () => Promise<AsyncIterator<String>>;
   expenseCategory: () => Promise<AsyncIterator<String>>;
+  budget: <T = BudgetSubscription>() => T;
+  user: <T = UserSubscription>() => T;
 }
 
 export interface ExpenseNullablePromise
@@ -1106,38 +1341,8 @@ export interface ExpenseNullablePromise
   expenseAmount: () => Promise<Float>;
   expenseDesc: () => Promise<String>;
   expenseCategory: () => Promise<String>;
-}
-
-export interface Savings {
-  id: ID_Output;
-  total: Float;
-  month: String;
-  monthAmount: Float;
-}
-
-export interface SavingsPromise extends Promise<Savings>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  total: () => Promise<Float>;
-  month: () => Promise<String>;
-  monthAmount: () => Promise<Float>;
-}
-
-export interface SavingsSubscription
-  extends Promise<AsyncIterator<Savings>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  total: () => Promise<AsyncIterator<Float>>;
-  month: () => Promise<AsyncIterator<String>>;
-  monthAmount: () => Promise<AsyncIterator<Float>>;
-}
-
-export interface SavingsNullablePromise
-  extends Promise<Savings | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  total: () => Promise<Float>;
-  month: () => Promise<String>;
-  monthAmount: () => Promise<Float>;
+  budget: <T = BudgetPromise>() => T;
+  user: <T = UserPromise>() => T;
 }
 
 export interface BudgetConnection {
@@ -1325,69 +1530,6 @@ export interface AggregateSavingsSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface User {
-  id: ID_Output;
-  firstName: String;
-  lastName: String;
-  email: String;
-  password: String;
-}
-
-export interface UserPromise extends Promise<User>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  firstName: () => Promise<String>;
-  lastName: () => Promise<String>;
-  email: () => Promise<String>;
-  password: () => Promise<String>;
-  budgets: <T = FragmentableArray<Budget>>(args?: {
-    where?: BudgetWhereInput;
-    orderBy?: BudgetOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  firstName: () => Promise<AsyncIterator<String>>;
-  lastName: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
-  password: () => Promise<AsyncIterator<String>>;
-  budgets: <T = Promise<AsyncIterator<BudgetSubscription>>>(args?: {
-    where?: BudgetWhereInput;
-    orderBy?: BudgetOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface UserNullablePromise
-  extends Promise<User | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  firstName: () => Promise<String>;
-  lastName: () => Promise<String>;
-  email: () => Promise<String>;
-  password: () => Promise<String>;
-  budgets: <T = FragmentableArray<Budget>>(args?: {
-    where?: BudgetWhereInput;
-    orderBy?: BudgetOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
 export interface UserConnection {
   pageInfo: PageInfo;
   edges: UserEdge[];
@@ -1489,6 +1631,9 @@ export interface BudgetPreviousValues {
   startDate: DateTimeOutput;
   endDate: DateTimeOutput;
   savingsTarget: Float;
+  totalExpenses?: Float;
+  remainingAmount?: Float;
+  totalSavings?: Float;
 }
 
 export interface BudgetPreviousValuesPromise
@@ -1499,6 +1644,9 @@ export interface BudgetPreviousValuesPromise
   startDate: () => Promise<DateTimeOutput>;
   endDate: () => Promise<DateTimeOutput>;
   savingsTarget: () => Promise<Float>;
+  totalExpenses: () => Promise<Float>;
+  remainingAmount: () => Promise<Float>;
+  totalSavings: () => Promise<Float>;
 }
 
 export interface BudgetPreviousValuesSubscription
@@ -1509,6 +1657,9 @@ export interface BudgetPreviousValuesSubscription
   startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   endDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   savingsTarget: () => Promise<AsyncIterator<Float>>;
+  totalExpenses: () => Promise<AsyncIterator<Float>>;
+  remainingAmount: () => Promise<AsyncIterator<Float>>;
+  totalSavings: () => Promise<AsyncIterator<Float>>;
 }
 
 export interface ExpenseSubscriptionPayload {
@@ -1588,27 +1739,21 @@ export interface SavingsSubscriptionPayloadSubscription
 
 export interface SavingsPreviousValues {
   id: ID_Output;
-  total: Float;
-  month: String;
-  monthAmount: Float;
+  amount: Float;
 }
 
 export interface SavingsPreviousValuesPromise
   extends Promise<SavingsPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  total: () => Promise<Float>;
-  month: () => Promise<String>;
-  monthAmount: () => Promise<Float>;
+  amount: () => Promise<Float>;
 }
 
 export interface SavingsPreviousValuesSubscription
   extends Promise<AsyncIterator<SavingsPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  total: () => Promise<AsyncIterator<Float>>;
-  month: () => Promise<AsyncIterator<String>>;
-  monthAmount: () => Promise<AsyncIterator<Float>>;
+  amount: () => Promise<AsyncIterator<Float>>;
 }
 
 export interface UserSubscriptionPayload {
@@ -1671,6 +1816,11 @@ export type ID_Input = string | number;
 export type ID_Output = string;
 
 /*
+The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
+*/
+export type Float = number;
+
+/*
 DateTime scalar input type, allowing Date
 */
 export type DateTimeInput = Date | string;
@@ -1679,11 +1829,6 @@ export type DateTimeInput = Date | string;
 DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
-
-/*
-The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
-*/
-export type Float = number;
 
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
@@ -1708,11 +1853,11 @@ export type Long = string;
 
 export const models: Model[] = [
   {
-    name: "User",
+    name: "Budget",
     embedded: false
   },
   {
-    name: "Budget",
+    name: "User",
     embedded: false
   },
   {

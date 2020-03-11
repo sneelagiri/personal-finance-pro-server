@@ -28,22 +28,26 @@ type Feed {
 }
 
 type Mutation {
-  signup(email: String!, password: String!, name: String!): AuthPayload
+  signup(
+    email: String!
+    password: String!
+    firstName: String!
+    lastName: String!
+  ): AuthPayload
   login(email: String!, password: String!): AuthPayload
-  budget(
+  postBudget(
     total: Float!
     startDate: DateTime!
     endDate: DateTime!
     savingsTarget: Float!
-    expenses: [Expense!]!
-    savings: [Savings!]!
   ): Budget!
-  expense(
+  postExpense(
     expenseAmount: Float!
     expenseDesc: String!
     expenseCategory: String!
+    budgetId: ID!
   ): Expense!
-  savings(total: Float!, month: String!, monthAmount: Float!): Savings!
+  postSavings(amount: Float!, budgetId: ID!): Savings!
 }
 
 type AuthPayload {
@@ -65,9 +69,11 @@ type Budget {
   startDate: DateTime!
   endDate: DateTime!
   savingsTarget: Float!
-  expenses: [Expense!]!
-  savings: [Savings!]!
+  expenses: [Expense]
+  savings: [Savings]
   createdAt: DateTime!
+  postedBy: User
+  sumExpenses: Float
 }
 
 type Expense {
@@ -75,11 +81,13 @@ type Expense {
   expenseAmount: Float!
   expenseDesc: String!
   expenseCategory: String!
+  budget: Budget!
+  user: User!
 }
 
 type Savings {
   id: ID!
-  total: Float!
-  month: String!
-  monthAmount: Float!
+  amount: Float!
+  budget: Budget!
+  user: User!
 }

@@ -29,8 +29,12 @@ type Budget {
   startDate: DateTime!
   endDate: DateTime!
   savingsTarget: Float!
+  postedBy: User
+  savings: Savings
   expenses(where: ExpenseWhereInput, orderBy: ExpenseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Expense!]
-  savings(where: SavingsWhereInput, orderBy: SavingsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Savings!]
+  totalExpenses: Float
+  remainingAmount: Float
+  totalSavings: Float
 }
 
 type BudgetConnection {
@@ -45,13 +49,66 @@ input BudgetCreateInput {
   startDate: DateTime!
   endDate: DateTime!
   savingsTarget: Float!
-  expenses: ExpenseCreateManyInput
-  savings: SavingsCreateManyInput
+  postedBy: UserCreateOneWithoutBudgetsInput
+  savings: SavingsCreateOneWithoutBudgetInput
+  expenses: ExpenseCreateManyWithoutBudgetInput
+  totalExpenses: Float
+  remainingAmount: Float
+  totalSavings: Float
 }
 
-input BudgetCreateManyInput {
-  create: [BudgetCreateInput!]
+input BudgetCreateManyWithoutPostedByInput {
+  create: [BudgetCreateWithoutPostedByInput!]
   connect: [BudgetWhereUniqueInput!]
+}
+
+input BudgetCreateOneWithoutExpensesInput {
+  create: BudgetCreateWithoutExpensesInput
+  connect: BudgetWhereUniqueInput
+}
+
+input BudgetCreateOneWithoutSavingsInput {
+  create: BudgetCreateWithoutSavingsInput
+  connect: BudgetWhereUniqueInput
+}
+
+input BudgetCreateWithoutExpensesInput {
+  id: ID
+  total: Float!
+  startDate: DateTime!
+  endDate: DateTime!
+  savingsTarget: Float!
+  postedBy: UserCreateOneWithoutBudgetsInput
+  savings: SavingsCreateOneWithoutBudgetInput
+  totalExpenses: Float
+  remainingAmount: Float
+  totalSavings: Float
+}
+
+input BudgetCreateWithoutPostedByInput {
+  id: ID
+  total: Float!
+  startDate: DateTime!
+  endDate: DateTime!
+  savingsTarget: Float!
+  savings: SavingsCreateOneWithoutBudgetInput
+  expenses: ExpenseCreateManyWithoutBudgetInput
+  totalExpenses: Float
+  remainingAmount: Float
+  totalSavings: Float
+}
+
+input BudgetCreateWithoutSavingsInput {
+  id: ID
+  total: Float!
+  startDate: DateTime!
+  endDate: DateTime!
+  savingsTarget: Float!
+  postedBy: UserCreateOneWithoutBudgetsInput
+  expenses: ExpenseCreateManyWithoutBudgetInput
+  totalExpenses: Float
+  remainingAmount: Float
+  totalSavings: Float
 }
 
 type BudgetEdge {
@@ -70,6 +127,12 @@ enum BudgetOrderByInput {
   endDate_DESC
   savingsTarget_ASC
   savingsTarget_DESC
+  totalExpenses_ASC
+  totalExpenses_DESC
+  remainingAmount_ASC
+  remainingAmount_DESC
+  totalSavings_ASC
+  totalSavings_DESC
 }
 
 type BudgetPreviousValues {
@@ -78,6 +141,9 @@ type BudgetPreviousValues {
   startDate: DateTime!
   endDate: DateTime!
   savingsTarget: Float!
+  totalExpenses: Float
+  remainingAmount: Float
+  totalSavings: Float
 }
 
 input BudgetScalarWhereInput {
@@ -127,6 +193,30 @@ input BudgetScalarWhereInput {
   savingsTarget_lte: Float
   savingsTarget_gt: Float
   savingsTarget_gte: Float
+  totalExpenses: Float
+  totalExpenses_not: Float
+  totalExpenses_in: [Float!]
+  totalExpenses_not_in: [Float!]
+  totalExpenses_lt: Float
+  totalExpenses_lte: Float
+  totalExpenses_gt: Float
+  totalExpenses_gte: Float
+  remainingAmount: Float
+  remainingAmount_not: Float
+  remainingAmount_in: [Float!]
+  remainingAmount_not_in: [Float!]
+  remainingAmount_lt: Float
+  remainingAmount_lte: Float
+  remainingAmount_gt: Float
+  remainingAmount_gte: Float
+  totalSavings: Float
+  totalSavings_not: Float
+  totalSavings_in: [Float!]
+  totalSavings_not_in: [Float!]
+  totalSavings_lt: Float
+  totalSavings_lte: Float
+  totalSavings_gt: Float
+  totalSavings_gte: Float
   AND: [BudgetScalarWhereInput!]
   OR: [BudgetScalarWhereInput!]
   NOT: [BudgetScalarWhereInput!]
@@ -150,22 +240,17 @@ input BudgetSubscriptionWhereInput {
   NOT: [BudgetSubscriptionWhereInput!]
 }
 
-input BudgetUpdateDataInput {
-  total: Float
-  startDate: DateTime
-  endDate: DateTime
-  savingsTarget: Float
-  expenses: ExpenseUpdateManyInput
-  savings: SavingsUpdateManyInput
-}
-
 input BudgetUpdateInput {
   total: Float
   startDate: DateTime
   endDate: DateTime
   savingsTarget: Float
-  expenses: ExpenseUpdateManyInput
-  savings: SavingsUpdateManyInput
+  postedBy: UserUpdateOneWithoutBudgetsInput
+  savings: SavingsUpdateOneWithoutBudgetInput
+  expenses: ExpenseUpdateManyWithoutBudgetInput
+  totalExpenses: Float
+  remainingAmount: Float
+  totalSavings: Float
 }
 
 input BudgetUpdateManyDataInput {
@@ -173,18 +258,9 @@ input BudgetUpdateManyDataInput {
   startDate: DateTime
   endDate: DateTime
   savingsTarget: Float
-}
-
-input BudgetUpdateManyInput {
-  create: [BudgetCreateInput!]
-  update: [BudgetUpdateWithWhereUniqueNestedInput!]
-  upsert: [BudgetUpsertWithWhereUniqueNestedInput!]
-  delete: [BudgetWhereUniqueInput!]
-  connect: [BudgetWhereUniqueInput!]
-  set: [BudgetWhereUniqueInput!]
-  disconnect: [BudgetWhereUniqueInput!]
-  deleteMany: [BudgetScalarWhereInput!]
-  updateMany: [BudgetUpdateManyWithWhereNestedInput!]
+  totalExpenses: Float
+  remainingAmount: Float
+  totalSavings: Float
 }
 
 input BudgetUpdateManyMutationInput {
@@ -192,6 +268,21 @@ input BudgetUpdateManyMutationInput {
   startDate: DateTime
   endDate: DateTime
   savingsTarget: Float
+  totalExpenses: Float
+  remainingAmount: Float
+  totalSavings: Float
+}
+
+input BudgetUpdateManyWithoutPostedByInput {
+  create: [BudgetCreateWithoutPostedByInput!]
+  delete: [BudgetWhereUniqueInput!]
+  connect: [BudgetWhereUniqueInput!]
+  set: [BudgetWhereUniqueInput!]
+  disconnect: [BudgetWhereUniqueInput!]
+  update: [BudgetUpdateWithWhereUniqueWithoutPostedByInput!]
+  upsert: [BudgetUpsertWithWhereUniqueWithoutPostedByInput!]
+  deleteMany: [BudgetScalarWhereInput!]
+  updateMany: [BudgetUpdateManyWithWhereNestedInput!]
 }
 
 input BudgetUpdateManyWithWhereNestedInput {
@@ -199,15 +290,75 @@ input BudgetUpdateManyWithWhereNestedInput {
   data: BudgetUpdateManyDataInput!
 }
 
-input BudgetUpdateWithWhereUniqueNestedInput {
-  where: BudgetWhereUniqueInput!
-  data: BudgetUpdateDataInput!
+input BudgetUpdateOneRequiredWithoutExpensesInput {
+  create: BudgetCreateWithoutExpensesInput
+  update: BudgetUpdateWithoutExpensesDataInput
+  upsert: BudgetUpsertWithoutExpensesInput
+  connect: BudgetWhereUniqueInput
 }
 
-input BudgetUpsertWithWhereUniqueNestedInput {
+input BudgetUpdateOneRequiredWithoutSavingsInput {
+  create: BudgetCreateWithoutSavingsInput
+  update: BudgetUpdateWithoutSavingsDataInput
+  upsert: BudgetUpsertWithoutSavingsInput
+  connect: BudgetWhereUniqueInput
+}
+
+input BudgetUpdateWithoutExpensesDataInput {
+  total: Float
+  startDate: DateTime
+  endDate: DateTime
+  savingsTarget: Float
+  postedBy: UserUpdateOneWithoutBudgetsInput
+  savings: SavingsUpdateOneWithoutBudgetInput
+  totalExpenses: Float
+  remainingAmount: Float
+  totalSavings: Float
+}
+
+input BudgetUpdateWithoutPostedByDataInput {
+  total: Float
+  startDate: DateTime
+  endDate: DateTime
+  savingsTarget: Float
+  savings: SavingsUpdateOneWithoutBudgetInput
+  expenses: ExpenseUpdateManyWithoutBudgetInput
+  totalExpenses: Float
+  remainingAmount: Float
+  totalSavings: Float
+}
+
+input BudgetUpdateWithoutSavingsDataInput {
+  total: Float
+  startDate: DateTime
+  endDate: DateTime
+  savingsTarget: Float
+  postedBy: UserUpdateOneWithoutBudgetsInput
+  expenses: ExpenseUpdateManyWithoutBudgetInput
+  totalExpenses: Float
+  remainingAmount: Float
+  totalSavings: Float
+}
+
+input BudgetUpdateWithWhereUniqueWithoutPostedByInput {
   where: BudgetWhereUniqueInput!
-  update: BudgetUpdateDataInput!
-  create: BudgetCreateInput!
+  data: BudgetUpdateWithoutPostedByDataInput!
+}
+
+input BudgetUpsertWithoutExpensesInput {
+  update: BudgetUpdateWithoutExpensesDataInput!
+  create: BudgetCreateWithoutExpensesInput!
+}
+
+input BudgetUpsertWithoutSavingsInput {
+  update: BudgetUpdateWithoutSavingsDataInput!
+  create: BudgetCreateWithoutSavingsInput!
+}
+
+input BudgetUpsertWithWhereUniqueWithoutPostedByInput {
+  where: BudgetWhereUniqueInput!
+  update: BudgetUpdateWithoutPostedByDataInput!
+  create: BudgetCreateWithoutPostedByInput!
 }
 
 input BudgetWhereInput {
@@ -257,12 +408,35 @@ input BudgetWhereInput {
   savingsTarget_lte: Float
   savingsTarget_gt: Float
   savingsTarget_gte: Float
+  postedBy: UserWhereInput
+  savings: SavingsWhereInput
   expenses_every: ExpenseWhereInput
   expenses_some: ExpenseWhereInput
   expenses_none: ExpenseWhereInput
-  savings_every: SavingsWhereInput
-  savings_some: SavingsWhereInput
-  savings_none: SavingsWhereInput
+  totalExpenses: Float
+  totalExpenses_not: Float
+  totalExpenses_in: [Float!]
+  totalExpenses_not_in: [Float!]
+  totalExpenses_lt: Float
+  totalExpenses_lte: Float
+  totalExpenses_gt: Float
+  totalExpenses_gte: Float
+  remainingAmount: Float
+  remainingAmount_not: Float
+  remainingAmount_in: [Float!]
+  remainingAmount_not_in: [Float!]
+  remainingAmount_lt: Float
+  remainingAmount_lte: Float
+  remainingAmount_gt: Float
+  remainingAmount_gte: Float
+  totalSavings: Float
+  totalSavings_not: Float
+  totalSavings_in: [Float!]
+  totalSavings_not_in: [Float!]
+  totalSavings_lt: Float
+  totalSavings_lte: Float
+  totalSavings_gt: Float
+  totalSavings_gte: Float
   AND: [BudgetWhereInput!]
   OR: [BudgetWhereInput!]
   NOT: [BudgetWhereInput!]
@@ -270,8 +444,6 @@ input BudgetWhereInput {
 
 input BudgetWhereUniqueInput {
   id: ID
-  startDate: DateTime
-  endDate: DateTime
 }
 
 scalar DateTime
@@ -281,6 +453,8 @@ type Expense {
   expenseAmount: Float!
   expenseDesc: String!
   expenseCategory: String!
+  budget: Budget!
+  user: User!
 }
 
 type ExpenseConnection {
@@ -294,11 +468,21 @@ input ExpenseCreateInput {
   expenseAmount: Float!
   expenseDesc: String!
   expenseCategory: String!
+  budget: BudgetCreateOneWithoutExpensesInput!
+  user: UserCreateOneInput!
 }
 
-input ExpenseCreateManyInput {
-  create: [ExpenseCreateInput!]
+input ExpenseCreateManyWithoutBudgetInput {
+  create: [ExpenseCreateWithoutBudgetInput!]
   connect: [ExpenseWhereUniqueInput!]
+}
+
+input ExpenseCreateWithoutBudgetInput {
+  id: ID
+  expenseAmount: Float!
+  expenseDesc: String!
+  expenseCategory: String!
+  user: UserCreateOneInput!
 }
 
 type ExpenseEdge {
@@ -398,16 +582,12 @@ input ExpenseSubscriptionWhereInput {
   NOT: [ExpenseSubscriptionWhereInput!]
 }
 
-input ExpenseUpdateDataInput {
-  expenseAmount: Float
-  expenseDesc: String
-  expenseCategory: String
-}
-
 input ExpenseUpdateInput {
   expenseAmount: Float
   expenseDesc: String
   expenseCategory: String
+  budget: BudgetUpdateOneRequiredWithoutExpensesInput
+  user: UserUpdateOneRequiredInput
 }
 
 input ExpenseUpdateManyDataInput {
@@ -416,22 +596,22 @@ input ExpenseUpdateManyDataInput {
   expenseCategory: String
 }
 
-input ExpenseUpdateManyInput {
-  create: [ExpenseCreateInput!]
-  update: [ExpenseUpdateWithWhereUniqueNestedInput!]
-  upsert: [ExpenseUpsertWithWhereUniqueNestedInput!]
-  delete: [ExpenseWhereUniqueInput!]
-  connect: [ExpenseWhereUniqueInput!]
-  set: [ExpenseWhereUniqueInput!]
-  disconnect: [ExpenseWhereUniqueInput!]
-  deleteMany: [ExpenseScalarWhereInput!]
-  updateMany: [ExpenseUpdateManyWithWhereNestedInput!]
-}
-
 input ExpenseUpdateManyMutationInput {
   expenseAmount: Float
   expenseDesc: String
   expenseCategory: String
+}
+
+input ExpenseUpdateManyWithoutBudgetInput {
+  create: [ExpenseCreateWithoutBudgetInput!]
+  delete: [ExpenseWhereUniqueInput!]
+  connect: [ExpenseWhereUniqueInput!]
+  set: [ExpenseWhereUniqueInput!]
+  disconnect: [ExpenseWhereUniqueInput!]
+  update: [ExpenseUpdateWithWhereUniqueWithoutBudgetInput!]
+  upsert: [ExpenseUpsertWithWhereUniqueWithoutBudgetInput!]
+  deleteMany: [ExpenseScalarWhereInput!]
+  updateMany: [ExpenseUpdateManyWithWhereNestedInput!]
 }
 
 input ExpenseUpdateManyWithWhereNestedInput {
@@ -439,15 +619,22 @@ input ExpenseUpdateManyWithWhereNestedInput {
   data: ExpenseUpdateManyDataInput!
 }
 
-input ExpenseUpdateWithWhereUniqueNestedInput {
-  where: ExpenseWhereUniqueInput!
-  data: ExpenseUpdateDataInput!
+input ExpenseUpdateWithoutBudgetDataInput {
+  expenseAmount: Float
+  expenseDesc: String
+  expenseCategory: String
+  user: UserUpdateOneRequiredInput
 }
 
-input ExpenseUpsertWithWhereUniqueNestedInput {
+input ExpenseUpdateWithWhereUniqueWithoutBudgetInput {
   where: ExpenseWhereUniqueInput!
-  update: ExpenseUpdateDataInput!
-  create: ExpenseCreateInput!
+  data: ExpenseUpdateWithoutBudgetDataInput!
+}
+
+input ExpenseUpsertWithWhereUniqueWithoutBudgetInput {
+  where: ExpenseWhereUniqueInput!
+  update: ExpenseUpdateWithoutBudgetDataInput!
+  create: ExpenseCreateWithoutBudgetInput!
 }
 
 input ExpenseWhereInput {
@@ -501,6 +688,8 @@ input ExpenseWhereInput {
   expenseCategory_not_starts_with: String
   expenseCategory_ends_with: String
   expenseCategory_not_ends_with: String
+  budget: BudgetWhereInput
+  user: UserWhereInput
   AND: [ExpenseWhereInput!]
   OR: [ExpenseWhereInput!]
   NOT: [ExpenseWhereInput!]
@@ -574,9 +763,9 @@ type Query {
 
 type Savings {
   id: ID!
-  total: Float!
-  month: String!
-  monthAmount: Float!
+  amount: Float!
+  budget: Budget!
+  user: User!
 }
 
 type SavingsConnection {
@@ -587,14 +776,20 @@ type SavingsConnection {
 
 input SavingsCreateInput {
   id: ID
-  total: Float!
-  month: String!
-  monthAmount: Float!
+  amount: Float!
+  budget: BudgetCreateOneWithoutSavingsInput!
+  user: UserCreateOneInput!
 }
 
-input SavingsCreateManyInput {
-  create: [SavingsCreateInput!]
-  connect: [SavingsWhereUniqueInput!]
+input SavingsCreateOneWithoutBudgetInput {
+  create: SavingsCreateWithoutBudgetInput
+  connect: SavingsWhereUniqueInput
+}
+
+input SavingsCreateWithoutBudgetInput {
+  id: ID
+  amount: Float!
+  user: UserCreateOneInput!
 }
 
 type SavingsEdge {
@@ -605,69 +800,13 @@ type SavingsEdge {
 enum SavingsOrderByInput {
   id_ASC
   id_DESC
-  total_ASC
-  total_DESC
-  month_ASC
-  month_DESC
-  monthAmount_ASC
-  monthAmount_DESC
+  amount_ASC
+  amount_DESC
 }
 
 type SavingsPreviousValues {
   id: ID!
-  total: Float!
-  month: String!
-  monthAmount: Float!
-}
-
-input SavingsScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  total: Float
-  total_not: Float
-  total_in: [Float!]
-  total_not_in: [Float!]
-  total_lt: Float
-  total_lte: Float
-  total_gt: Float
-  total_gte: Float
-  month: String
-  month_not: String
-  month_in: [String!]
-  month_not_in: [String!]
-  month_lt: String
-  month_lte: String
-  month_gt: String
-  month_gte: String
-  month_contains: String
-  month_not_contains: String
-  month_starts_with: String
-  month_not_starts_with: String
-  month_ends_with: String
-  month_not_ends_with: String
-  monthAmount: Float
-  monthAmount_not: Float
-  monthAmount_in: [Float!]
-  monthAmount_not_in: [Float!]
-  monthAmount_lt: Float
-  monthAmount_lte: Float
-  monthAmount_gt: Float
-  monthAmount_gte: Float
-  AND: [SavingsScalarWhereInput!]
-  OR: [SavingsScalarWhereInput!]
-  NOT: [SavingsScalarWhereInput!]
+  amount: Float!
 }
 
 type SavingsSubscriptionPayload {
@@ -688,56 +827,33 @@ input SavingsSubscriptionWhereInput {
   NOT: [SavingsSubscriptionWhereInput!]
 }
 
-input SavingsUpdateDataInput {
-  total: Float
-  month: String
-  monthAmount: Float
-}
-
 input SavingsUpdateInput {
-  total: Float
-  month: String
-  monthAmount: Float
-}
-
-input SavingsUpdateManyDataInput {
-  total: Float
-  month: String
-  monthAmount: Float
-}
-
-input SavingsUpdateManyInput {
-  create: [SavingsCreateInput!]
-  update: [SavingsUpdateWithWhereUniqueNestedInput!]
-  upsert: [SavingsUpsertWithWhereUniqueNestedInput!]
-  delete: [SavingsWhereUniqueInput!]
-  connect: [SavingsWhereUniqueInput!]
-  set: [SavingsWhereUniqueInput!]
-  disconnect: [SavingsWhereUniqueInput!]
-  deleteMany: [SavingsScalarWhereInput!]
-  updateMany: [SavingsUpdateManyWithWhereNestedInput!]
+  amount: Float
+  budget: BudgetUpdateOneRequiredWithoutSavingsInput
+  user: UserUpdateOneRequiredInput
 }
 
 input SavingsUpdateManyMutationInput {
-  total: Float
-  month: String
-  monthAmount: Float
+  amount: Float
 }
 
-input SavingsUpdateManyWithWhereNestedInput {
-  where: SavingsScalarWhereInput!
-  data: SavingsUpdateManyDataInput!
+input SavingsUpdateOneWithoutBudgetInput {
+  create: SavingsCreateWithoutBudgetInput
+  update: SavingsUpdateWithoutBudgetDataInput
+  upsert: SavingsUpsertWithoutBudgetInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: SavingsWhereUniqueInput
 }
 
-input SavingsUpdateWithWhereUniqueNestedInput {
-  where: SavingsWhereUniqueInput!
-  data: SavingsUpdateDataInput!
+input SavingsUpdateWithoutBudgetDataInput {
+  amount: Float
+  user: UserUpdateOneRequiredInput
 }
 
-input SavingsUpsertWithWhereUniqueNestedInput {
-  where: SavingsWhereUniqueInput!
-  update: SavingsUpdateDataInput!
-  create: SavingsCreateInput!
+input SavingsUpsertWithoutBudgetInput {
+  update: SavingsUpdateWithoutBudgetDataInput!
+  create: SavingsCreateWithoutBudgetInput!
 }
 
 input SavingsWhereInput {
@@ -755,36 +871,16 @@ input SavingsWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  total: Float
-  total_not: Float
-  total_in: [Float!]
-  total_not_in: [Float!]
-  total_lt: Float
-  total_lte: Float
-  total_gt: Float
-  total_gte: Float
-  month: String
-  month_not: String
-  month_in: [String!]
-  month_not_in: [String!]
-  month_lt: String
-  month_lte: String
-  month_gt: String
-  month_gte: String
-  month_contains: String
-  month_not_contains: String
-  month_starts_with: String
-  month_not_starts_with: String
-  month_ends_with: String
-  month_not_ends_with: String
-  monthAmount: Float
-  monthAmount_not: Float
-  monthAmount_in: [Float!]
-  monthAmount_not_in: [Float!]
-  monthAmount_lt: Float
-  monthAmount_lte: Float
-  monthAmount_gt: Float
-  monthAmount_gte: Float
+  amount: Float
+  amount_not: Float
+  amount_in: [Float!]
+  amount_not_in: [Float!]
+  amount_lt: Float
+  amount_lte: Float
+  amount_gt: Float
+  amount_gte: Float
+  budget: BudgetWhereInput
+  user: UserWhereInput
   AND: [SavingsWhereInput!]
   OR: [SavingsWhereInput!]
   NOT: [SavingsWhereInput!]
@@ -822,7 +918,25 @@ input UserCreateInput {
   lastName: String!
   email: String!
   password: String!
-  budgets: BudgetCreateManyInput
+  budgets: BudgetCreateManyWithoutPostedByInput
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutBudgetsInput {
+  create: UserCreateWithoutBudgetsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutBudgetsInput {
+  id: ID
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
 }
 
 type UserEdge {
@@ -869,12 +983,20 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  budgets: BudgetUpdateManyWithoutPostedByInput
+}
+
 input UserUpdateInput {
   firstName: String
   lastName: String
   email: String
   password: String
-  budgets: BudgetUpdateManyInput
+  budgets: BudgetUpdateManyWithoutPostedByInput
 }
 
 input UserUpdateManyMutationInput {
@@ -882,6 +1004,39 @@ input UserUpdateManyMutationInput {
   lastName: String
   email: String
   password: String
+}
+
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateOneWithoutBudgetsInput {
+  create: UserCreateWithoutBudgetsInput
+  update: UserUpdateWithoutBudgetsDataInput
+  upsert: UserUpsertWithoutBudgetsInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutBudgetsDataInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
+}
+
+input UserUpsertWithoutBudgetsInput {
+  update: UserUpdateWithoutBudgetsDataInput!
+  create: UserCreateWithoutBudgetsInput!
 }
 
 input UserWhereInput {

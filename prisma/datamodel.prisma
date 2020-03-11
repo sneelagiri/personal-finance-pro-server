@@ -1,3 +1,16 @@
+type Budget {
+  id: ID! @id
+  total: Float!
+  startDate: DateTime!
+  endDate: DateTime!
+  savingsTarget: Float!
+  postedBy: User
+  savings: Savings @relation(link: INLINE)
+  expenses: [Expense]
+  totalExpenses: Float
+  remainingAmount: Float
+  totalSavings: Float
+} 
 type User {
   id: ID! @id
   firstName: String!
@@ -7,27 +20,20 @@ type User {
   budgets: [Budget!]! 
 } 
 
-type Budget {
-  id: ID! @id
-  total: Float!
-  startDate: DateTime! @unique
-  endDate: DateTime! @unique
-  savingsTarget: Float!
-  expenses: [Expense!]!
-  savings: [Savings!]!
-}
-
 type Expense {
   id: ID! @id
   expenseAmount: Float!
   expenseDesc: String!
   expenseCategory: String!
+  budget: Budget!
+  user: User!
 }
 
 type Savings {
   id: ID! @id
-  total: Float!
-  month: String!
-  monthAmount: Float!
+  amount: Float!
+  budget: Budget!
+  user: User!
 }
+
 
