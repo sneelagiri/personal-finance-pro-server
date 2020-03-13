@@ -7,6 +7,45 @@ type Query {
     first: Int
     orderby: BudgetOrderByInput
   ): Feed!
+  budgets(
+    where: BudgetWhereInput
+    orderBy: BudgetOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Budget]!
+}
+
+input BudgetWhereInput {
+  startDate: DateTime
+  startDate_not: DateTime
+  startDate_in: [DateTime!]
+  startDate_not_in: [DateTime!]
+  startDate_lt: DateTime
+  startDate_lte: DateTime
+  startDate_gt: DateTime
+  startDate_gte: DateTime
+  endDate: DateTime
+  endDate_not: DateTime
+  endDate_in: [DateTime!]
+  endDate_not_in: [DateTime!]
+  endDate_lt: DateTime
+  endDate_lte: DateTime
+  endDate_gt: DateTime
+  endDate_gte: DateTime
+  postedBy: UserWhereInput
+  AND: [BudgetWhereInput!]
+  OR: [BudgetWhereInput!]
+  NOT: [BudgetWhereInput!]
+}
+
+input UserWhereInput {
+  id: ID
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
 }
 
 enum BudgetOrderByInput {
