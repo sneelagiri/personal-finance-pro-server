@@ -23,10 +23,20 @@ async function login(parent, args, context) {
   if (!valid) {
     throw new Error("Invalid password");
   }
-
+  const budgets = await context.prisma.budgets({
+    where: {
+      postedBy: {
+        id: user.id
+      }
+    },
+    orderBy: "endDate_DESC"
+  });
+  const latestBudget = budgets[0];
+  // console.log(latestBudget);
   return {
     token: jwt.sign({ userId: user.id }, APP_SECRET),
-    user
+    user,
+    latestBudget
   };
 }
 
@@ -38,7 +48,10 @@ async function postBudget(parent, args, context) {
     startDate: startDate,
     endDate: endDate,
     savingsTarget: savingsTarget,
-    postedBy: { connect: { id: userId } }
+    postedBy: { connect: { id: userId } },
+    totalSavings: 0.0,
+    remainingAmount: total,
+    totalExpenses: 0.0
   });
   return newBudget;
 }
@@ -68,6 +81,8 @@ async function postExpense(parent, args, context) {
   const totalExpenses = allExpenses.reduce((acc, curr) => {
     if (curr.expenseAmount) {
       return (acc = acc + curr.expenseAmount);
+    } else {
+      return acc;
     }
   }, 0.0);
   const remainingBudget = budget.total - totalExpenses;
@@ -133,7 +148,7 @@ async function postSavings(parent, args, context) {
       if (typeof curr.amount === "number" && typeof acc === "number") {
         return (acc = acc + curr.amount);
       } else {
-        return 0;
+        return acc;
       }
     }, 0.0);
     const newBudget = await context.prisma.updateBudget({
