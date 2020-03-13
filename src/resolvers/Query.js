@@ -1,3 +1,9 @@
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { APP_SECRET, getUserId } = require("../utils");
+const moment = require("moment");
+const today = moment().format();
+
 async function budget(parent, args, context) {
   const count = await context.prisma
     .budgetsConnection({
@@ -48,6 +54,21 @@ async function budget(parent, args, context) {
   };
 }
 
+async function currentBudget(parent, args, context) {
+  const userId = getUserId(context);
+  const budgets = await context.prisma.budgets({
+    where: {
+      postedBy: {
+        id: userId
+      }
+    },
+    orderBy: "endDate_DESC"
+  });
+  // console.log(budgets[0]);
+  return budgets[0];
+}
+
 module.exports = {
-  budget
+  budget,
+  currentBudget
 };
