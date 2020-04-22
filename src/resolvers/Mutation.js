@@ -87,7 +87,7 @@ async function postExpense(parent, args, context) {
     }
   }, 0.0);
   const remainingBudget = budget.total - totalExpenses;
-  context.prisma.updateBudget({
+  const updatedBudget = await context.prisma.updateBudget({
     data: {
       remainingAmount: remainingBudget,
       totalExpenses: totalExpenses,
