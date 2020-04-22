@@ -246,7 +246,9 @@ export type ExpenseOrderByInput =
   | "expenseCategory_ASC"
   | "expenseCategory_DESC"
   | "expenseDate_ASC"
-  | "expenseDate_DESC";
+  | "expenseDate_DESC"
+  | "budgetId_ASC"
+  | "budgetId_DESC";
 
 export type SavingsOrderByInput =
   | "id_ASC"
@@ -522,6 +524,14 @@ export interface ExpenseWhereInput {
   expenseDate_gt?: Maybe<DateTimeInput>;
   expenseDate_gte?: Maybe<DateTimeInput>;
   budget?: Maybe<BudgetWhereInput>;
+  budgetId?: Maybe<Int>;
+  budgetId_not?: Maybe<Int>;
+  budgetId_in?: Maybe<Int[] | Int>;
+  budgetId_not_in?: Maybe<Int[] | Int>;
+  budgetId_lt?: Maybe<Int>;
+  budgetId_lte?: Maybe<Int>;
+  budgetId_gt?: Maybe<Int>;
+  budgetId_gte?: Maybe<Int>;
   user?: Maybe<UserWhereInput>;
   AND?: Maybe<ExpenseWhereInput[] | ExpenseWhereInput>;
   OR?: Maybe<ExpenseWhereInput[] | ExpenseWhereInput>;
@@ -626,6 +636,7 @@ export interface ExpenseCreateWithoutBudgetInput {
   expenseDesc?: Maybe<String>;
   expenseCategory: String;
   expenseDate: DateTimeInput;
+  budgetId?: Maybe<Int>;
   user: UserCreateOneInput;
 }
 
@@ -765,6 +776,7 @@ export interface ExpenseUpdateWithoutBudgetDataInput {
   expenseDesc?: Maybe<String>;
   expenseCategory?: Maybe<String>;
   expenseDate?: Maybe<DateTimeInput>;
+  budgetId?: Maybe<Int>;
   user?: Maybe<UserUpdateOneRequiredInput>;
 }
 
@@ -833,6 +845,14 @@ export interface ExpenseScalarWhereInput {
   expenseDate_lte?: Maybe<DateTimeInput>;
   expenseDate_gt?: Maybe<DateTimeInput>;
   expenseDate_gte?: Maybe<DateTimeInput>;
+  budgetId?: Maybe<Int>;
+  budgetId_not?: Maybe<Int>;
+  budgetId_in?: Maybe<Int[] | Int>;
+  budgetId_not_in?: Maybe<Int[] | Int>;
+  budgetId_lt?: Maybe<Int>;
+  budgetId_lte?: Maybe<Int>;
+  budgetId_gt?: Maybe<Int>;
+  budgetId_gte?: Maybe<Int>;
   AND?: Maybe<ExpenseScalarWhereInput[] | ExpenseScalarWhereInput>;
   OR?: Maybe<ExpenseScalarWhereInput[] | ExpenseScalarWhereInput>;
   NOT?: Maybe<ExpenseScalarWhereInput[] | ExpenseScalarWhereInput>;
@@ -848,6 +868,7 @@ export interface ExpenseUpdateManyDataInput {
   expenseDesc?: Maybe<String>;
   expenseCategory?: Maybe<String>;
   expenseDate?: Maybe<DateTimeInput>;
+  budgetId?: Maybe<Int>;
 }
 
 export interface BudgetUpsertWithWhereUniqueWithoutPostedByInput {
@@ -974,6 +995,7 @@ export interface ExpenseCreateInput {
   expenseCategory: String;
   expenseDate: DateTimeInput;
   budget: BudgetCreateOneWithoutExpensesInput;
+  budgetId?: Maybe<Int>;
   user: UserCreateOneInput;
 }
 
@@ -1001,6 +1023,7 @@ export interface ExpenseUpdateInput {
   expenseCategory?: Maybe<String>;
   expenseDate?: Maybe<DateTimeInput>;
   budget?: Maybe<BudgetUpdateOneRequiredWithoutExpensesInput>;
+  budgetId?: Maybe<Int>;
   user?: Maybe<UserUpdateOneRequiredInput>;
 }
 
@@ -1033,6 +1056,7 @@ export interface ExpenseUpdateManyMutationInput {
   expenseDesc?: Maybe<String>;
   expenseCategory?: Maybe<String>;
   expenseDate?: Maybe<DateTimeInput>;
+  budgetId?: Maybe<Int>;
 }
 
 export interface SavingsCreateInput {
@@ -1337,6 +1361,7 @@ export interface Expense {
   expenseDesc?: String;
   expenseCategory: String;
   expenseDate: DateTimeOutput;
+  budgetId?: Int;
 }
 
 export interface ExpensePromise extends Promise<Expense>, Fragmentable {
@@ -1346,6 +1371,7 @@ export interface ExpensePromise extends Promise<Expense>, Fragmentable {
   expenseCategory: () => Promise<String>;
   expenseDate: () => Promise<DateTimeOutput>;
   budget: <T = BudgetPromise>() => T;
+  budgetId: () => Promise<Int>;
   user: <T = UserPromise>() => T;
 }
 
@@ -1358,6 +1384,7 @@ export interface ExpenseSubscription
   expenseCategory: () => Promise<AsyncIterator<String>>;
   expenseDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   budget: <T = BudgetSubscription>() => T;
+  budgetId: () => Promise<AsyncIterator<Int>>;
   user: <T = UserSubscription>() => T;
 }
 
@@ -1370,6 +1397,7 @@ export interface ExpenseNullablePromise
   expenseCategory: () => Promise<String>;
   expenseDate: () => Promise<DateTimeOutput>;
   budget: <T = BudgetPromise>() => T;
+  budgetId: () => Promise<Int>;
   user: <T = UserPromise>() => T;
 }
 
@@ -1721,6 +1749,7 @@ export interface ExpensePreviousValues {
   expenseDesc?: String;
   expenseCategory: String;
   expenseDate: DateTimeOutput;
+  budgetId?: Int;
 }
 
 export interface ExpensePreviousValuesPromise
@@ -1731,6 +1760,7 @@ export interface ExpensePreviousValuesPromise
   expenseDesc: () => Promise<String>;
   expenseCategory: () => Promise<String>;
   expenseDate: () => Promise<DateTimeOutput>;
+  budgetId: () => Promise<Int>;
 }
 
 export interface ExpensePreviousValuesSubscription
@@ -1741,6 +1771,7 @@ export interface ExpensePreviousValuesSubscription
   expenseDesc: () => Promise<AsyncIterator<String>>;
   expenseCategory: () => Promise<AsyncIterator<String>>;
   expenseDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  budgetId: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface SavingsSubscriptionPayload {

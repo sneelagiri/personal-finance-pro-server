@@ -455,6 +455,7 @@ type Expense {
   expenseCategory: String!
   expenseDate: DateTime!
   budget: Budget!
+  budgetId: Int
   user: User!
 }
 
@@ -471,6 +472,7 @@ input ExpenseCreateInput {
   expenseCategory: String!
   expenseDate: DateTime!
   budget: BudgetCreateOneWithoutExpensesInput!
+  budgetId: Int
   user: UserCreateOneInput!
 }
 
@@ -485,6 +487,7 @@ input ExpenseCreateWithoutBudgetInput {
   expenseDesc: String
   expenseCategory: String!
   expenseDate: DateTime!
+  budgetId: Int
   user: UserCreateOneInput!
 }
 
@@ -504,6 +507,8 @@ enum ExpenseOrderByInput {
   expenseCategory_DESC
   expenseDate_ASC
   expenseDate_DESC
+  budgetId_ASC
+  budgetId_DESC
 }
 
 type ExpensePreviousValues {
@@ -512,6 +517,7 @@ type ExpensePreviousValues {
   expenseDesc: String
   expenseCategory: String!
   expenseDate: DateTime!
+  budgetId: Int
 }
 
 input ExpenseScalarWhereInput {
@@ -573,6 +579,14 @@ input ExpenseScalarWhereInput {
   expenseDate_lte: DateTime
   expenseDate_gt: DateTime
   expenseDate_gte: DateTime
+  budgetId: Int
+  budgetId_not: Int
+  budgetId_in: [Int!]
+  budgetId_not_in: [Int!]
+  budgetId_lt: Int
+  budgetId_lte: Int
+  budgetId_gt: Int
+  budgetId_gte: Int
   AND: [ExpenseScalarWhereInput!]
   OR: [ExpenseScalarWhereInput!]
   NOT: [ExpenseScalarWhereInput!]
@@ -602,6 +616,7 @@ input ExpenseUpdateInput {
   expenseCategory: String
   expenseDate: DateTime
   budget: BudgetUpdateOneRequiredWithoutExpensesInput
+  budgetId: Int
   user: UserUpdateOneRequiredInput
 }
 
@@ -610,6 +625,7 @@ input ExpenseUpdateManyDataInput {
   expenseDesc: String
   expenseCategory: String
   expenseDate: DateTime
+  budgetId: Int
 }
 
 input ExpenseUpdateManyMutationInput {
@@ -617,6 +633,7 @@ input ExpenseUpdateManyMutationInput {
   expenseDesc: String
   expenseCategory: String
   expenseDate: DateTime
+  budgetId: Int
 }
 
 input ExpenseUpdateManyWithoutBudgetInput {
@@ -641,6 +658,7 @@ input ExpenseUpdateWithoutBudgetDataInput {
   expenseDesc: String
   expenseCategory: String
   expenseDate: DateTime
+  budgetId: Int
   user: UserUpdateOneRequiredInput
 }
 
@@ -715,6 +733,14 @@ input ExpenseWhereInput {
   expenseDate_gt: DateTime
   expenseDate_gte: DateTime
   budget: BudgetWhereInput
+  budgetId: Int
+  budgetId_not: Int
+  budgetId_in: [Int!]
+  budgetId_not_in: [Int!]
+  budgetId_lt: Int
+  budgetId_lte: Int
+  budgetId_gt: Int
+  budgetId_gte: Int
   user: UserWhereInput
   AND: [ExpenseWhereInput!]
   OR: [ExpenseWhereInput!]
