@@ -451,8 +451,9 @@ scalar DateTime
 type Expense {
   id: ID!
   expenseAmount: Float!
-  expenseDesc: String!
+  expenseDesc: String
   expenseCategory: String!
+  expenseDate: DateTime!
   budget: Budget!
   user: User!
 }
@@ -466,8 +467,9 @@ type ExpenseConnection {
 input ExpenseCreateInput {
   id: ID
   expenseAmount: Float!
-  expenseDesc: String!
+  expenseDesc: String
   expenseCategory: String!
+  expenseDate: DateTime!
   budget: BudgetCreateOneWithoutExpensesInput!
   user: UserCreateOneInput!
 }
@@ -480,8 +482,9 @@ input ExpenseCreateManyWithoutBudgetInput {
 input ExpenseCreateWithoutBudgetInput {
   id: ID
   expenseAmount: Float!
-  expenseDesc: String!
+  expenseDesc: String
   expenseCategory: String!
+  expenseDate: DateTime!
   user: UserCreateOneInput!
 }
 
@@ -499,13 +502,16 @@ enum ExpenseOrderByInput {
   expenseDesc_DESC
   expenseCategory_ASC
   expenseCategory_DESC
+  expenseDate_ASC
+  expenseDate_DESC
 }
 
 type ExpensePreviousValues {
   id: ID!
   expenseAmount: Float!
-  expenseDesc: String!
+  expenseDesc: String
   expenseCategory: String!
+  expenseDate: DateTime!
 }
 
 input ExpenseScalarWhereInput {
@@ -559,6 +565,14 @@ input ExpenseScalarWhereInput {
   expenseCategory_not_starts_with: String
   expenseCategory_ends_with: String
   expenseCategory_not_ends_with: String
+  expenseDate: DateTime
+  expenseDate_not: DateTime
+  expenseDate_in: [DateTime!]
+  expenseDate_not_in: [DateTime!]
+  expenseDate_lt: DateTime
+  expenseDate_lte: DateTime
+  expenseDate_gt: DateTime
+  expenseDate_gte: DateTime
   AND: [ExpenseScalarWhereInput!]
   OR: [ExpenseScalarWhereInput!]
   NOT: [ExpenseScalarWhereInput!]
@@ -586,6 +600,7 @@ input ExpenseUpdateInput {
   expenseAmount: Float
   expenseDesc: String
   expenseCategory: String
+  expenseDate: DateTime
   budget: BudgetUpdateOneRequiredWithoutExpensesInput
   user: UserUpdateOneRequiredInput
 }
@@ -594,12 +609,14 @@ input ExpenseUpdateManyDataInput {
   expenseAmount: Float
   expenseDesc: String
   expenseCategory: String
+  expenseDate: DateTime
 }
 
 input ExpenseUpdateManyMutationInput {
   expenseAmount: Float
   expenseDesc: String
   expenseCategory: String
+  expenseDate: DateTime
 }
 
 input ExpenseUpdateManyWithoutBudgetInput {
@@ -623,6 +640,7 @@ input ExpenseUpdateWithoutBudgetDataInput {
   expenseAmount: Float
   expenseDesc: String
   expenseCategory: String
+  expenseDate: DateTime
   user: UserUpdateOneRequiredInput
 }
 
@@ -688,6 +706,14 @@ input ExpenseWhereInput {
   expenseCategory_not_starts_with: String
   expenseCategory_ends_with: String
   expenseCategory_not_ends_with: String
+  expenseDate: DateTime
+  expenseDate_not: DateTime
+  expenseDate_in: [DateTime!]
+  expenseDate_not_in: [DateTime!]
+  expenseDate_lt: DateTime
+  expenseDate_lte: DateTime
+  expenseDate_gt: DateTime
+  expenseDate_gte: DateTime
   budget: BudgetWhereInput
   user: UserWhereInput
   AND: [ExpenseWhereInput!]
