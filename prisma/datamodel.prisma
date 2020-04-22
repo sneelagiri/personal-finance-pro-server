@@ -23,8 +23,9 @@ type User {
 type Expense {
   id: ID! @id
   expenseAmount: Float!
-  expenseDesc: String!
+  expenseDesc: String
   expenseCategory: String!
+  expenseDate: DateTime!
   budget: Budget!
   user: User!
 }
