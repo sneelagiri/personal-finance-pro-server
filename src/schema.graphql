@@ -8,6 +8,7 @@ type Query {
     orderby: BudgetOrderByInput
   ): Feed!
   currentBudget: Budget!
+  currentExpenses: [Expense]
 }
 
 input UserWhereInput {
@@ -91,8 +92,9 @@ type Budget {
 type Expense {
   id: ID!
   expenseAmount: Float!
-  expenseDesc: String!
+  expenseDesc: String
   expenseCategory: String!
+  expenseDate: DateTime!
   budget: Budget!
   user: User!
 }
