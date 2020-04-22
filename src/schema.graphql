@@ -51,8 +51,9 @@ type Mutation {
   ): Budget!
   postExpense(
     expenseAmount: Float!
-    expenseDesc: String!
+    expenseDesc: String
     expenseCategory: String!
+    expenseDate: DateTime!
     budgetId: ID!
   ): Expense!
   postSavings(amount: Float!, budgetId: ID!): Savings!
