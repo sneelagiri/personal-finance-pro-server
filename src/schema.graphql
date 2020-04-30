@@ -9,6 +9,7 @@ type Query {
   ): Feed!
   currentBudget: Budget!
   currentExpenses: [Expense]
+  userExists(email: String): User!
 }
 
 input UserWhereInput {

@@ -87,8 +87,18 @@ async function currentExpenses(parent, args, context) {
   return expenses;
 }
 
+async function userExists(parent, args, context) {
+  const user = await context.prisma.users({
+    where: {
+      email: args.email,
+    },
+  });
+  return user[0];
+}
+
 module.exports = {
   budget,
   currentBudget,
   currentExpenses,
+  userExists,
 };
