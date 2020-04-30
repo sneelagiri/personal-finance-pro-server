@@ -16,12 +16,12 @@ async function signup(parent, args, context) {
 async function login(parent, args, context) {
   const user = await context.prisma.user({ email: args.email });
   if (!user) {
-    throw new Error("No such user found");
+    throw new Error("Invalid email address or password");
   }
 
   const valid = await bcrypt.compare(args.password, user.password);
   if (!valid) {
-    throw new Error("Invalid password");
+    throw new Error("Invalid email address or password");
   }
   const budgets = await context.prisma.budgets({
     where: {
