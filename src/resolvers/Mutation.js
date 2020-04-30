@@ -40,6 +40,7 @@ async function login(parent, args, context) {
   };
 }
 
+
 async function postBudget(parent, args, context) {
   const { total, startDate, endDate, savingsTarget } = args;
   const userId = getUserId(context);
@@ -52,6 +53,7 @@ async function postBudget(parent, args, context) {
     totalSavings: 0.0,
     remainingAmount: total,
     totalExpenses: 0.0,
+
   });
   return newBudget;
 }
@@ -85,6 +87,7 @@ async function postExpense(parent, args, context) {
     } else {
       return acc;
     }
+    return acc;
   }, 0.0);
   const remainingBudget = budget.total - totalExpenses;
   const updatedBudget = await context.prisma.updateBudget({
