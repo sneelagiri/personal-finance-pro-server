@@ -9,37 +9,53 @@ async function signup(parent, args, context) {
 
   return {
     token,
-    user
+    user,
   };
 }
 
 async function login(parent, args, context) {
   const user = await context.prisma.user({ email: args.email });
   if (!user) {
-    throw new Error("No such user found");
+    throw new Error("Invalid email address or password");
   }
 
   const valid = await bcrypt.compare(args.password, user.password);
   if (!valid) {
-    throw new Error("Invalid password");
+    throw new Error("Invalid email address or password");
   }
-
+  const budgets = await context.prisma.budgets({
+    where: {
+      postedBy: {
+        id: user.id,
+      },
+    },
+    orderBy: "endDate_DESC",
+  });
+  const latestBudget = budgets[0];
+  // console.log(latestBudget);
   return {
     token: jwt.sign({ userId: user.id }, APP_SECRET),
-    user
+    user,
+    latestBudget,
   };
 }
 
-function postBudget(parent, args, context) {
+
+async function postBudget(parent, args, context) {
   const { total, startDate, endDate, savingsTarget } = args;
   const userId = getUserId(context);
-  return context.prisma.createBudget({
+  const newBudget = await context.prisma.createBudget({
     total: total,
     startDate: startDate,
     endDate: endDate,
     savingsTarget: savingsTarget,
-    postedBy: { connect: { id: userId } }
+    postedBy: { connect: { id: userId } },
+    totalSavings: 0.0,
+    remainingAmount: total,
+    totalExpenses: 0.0,
+
   });
+  return newBudget;
 }
 
 async function postExpense(parent, args, context) {
@@ -48,37 +64,40 @@ async function postExpense(parent, args, context) {
     expenseAmount: args.expenseAmount,
     expenseDesc: args.expenseDesc,
     expenseCategory: args.expenseCategory,
+    expenseDate: args.expenseDate,
     user: { connect: { id: userId } },
-    budget: { connect: { id: args.budgetId } }
+    budget: { connect: { id: args.budgetId } },
   });
   const budget = await context.prisma.budget({
-    id: args.budgetId
+    id: args.budgetId,
   });
   const allExpenses = await context.prisma.expenses({
     where: {
       user: {
-        id: userId
+        id: userId,
       },
       budget: {
-        id: args.budgetId
-      }
-    }
+        id: args.budgetId,
+      },
+    },
   });
   const totalExpenses = allExpenses.reduce((acc, curr) => {
     if (curr.expenseAmount) {
-      return acc + curr.expenseAmount;
+      return (acc = acc + curr.expenseAmount);
+    } else {
+      return acc;
     }
     return acc;
   }, 0.0);
   const remainingBudget = budget.total - totalExpenses;
-  context.prisma.updateBudget({
+  const updatedBudget = await context.prisma.updateBudget({
     data: {
       remainingAmount: remainingBudget,
-      totalExpenses: totalExpenses
+      totalExpenses: totalExpenses,
     },
     where: {
-      id: args.budgetId
-    }
+      id: args.budgetId,
+    },
   });
   return expense;
 }
@@ -86,11 +105,11 @@ async function postExpense(parent, args, context) {
 async function postSavings(parent, args, context) {
   const userId = getUserId(context);
   const matchingBudget = await context.prisma.budget({
-    id: args.budgetId
+    id: args.budgetId,
   });
   const matchingBudgetSavings = await context.prisma
     .budget({
-      id: args.budgetId
+      id: args.budgetId,
     })
     .savings();
   let savingsRecord = {};
@@ -98,51 +117,51 @@ async function postSavings(parent, args, context) {
     savingsRecord = await context.prisma.createSavings({
       amount: args.amount,
       user: { connect: { id: userId } },
-      budget: { connect: { id: args.budgetId } }
+      budget: { connect: { id: args.budgetId } },
     });
   } else {
     savingsRecord = await context.prisma.updateSavings({
       data: {
-        amount: args.amount
+        amount: args.amount,
       },
       where: {
-        id: matchingBudgetSavings.id
-      }
+        id: matchingBudgetSavings.id,
+      },
     });
   }
   const budgets = await context.prisma.budgets({
     where: {
       postedBy: {
-        id: userId
-      }
+        id: userId,
+      },
     },
-    orderBy: "endDate_DESC"
+    orderBy: "endDate_DESC",
   });
-  budgets.forEach(async budget => {
+  budgets.map(async (budget) => {
     const allSavings = await context.prisma.savingses({
       where: {
         user: {
-          id: userId
+          id: userId,
         },
         budget: {
-          endDate_lte: budget.endDate
-        }
-      }
+          endDate_lte: budget.endDate,
+        },
+      },
     });
     const totalSavings = allSavings.reduce((acc, curr) => {
       if (typeof curr.amount === "number" && typeof acc === "number") {
         return (acc = acc + curr.amount);
       } else {
-        return 0;
+        return acc;
       }
     }, 0.0);
     const newBudget = await context.prisma.updateBudget({
       data: {
-        totalSavings: totalSavings
+        totalSavings: totalSavings,
       },
       where: {
-        id: budget.id
-      }
+        id: budget.id,
+      },
     });
     // console.log(newBudget);
   });
@@ -155,5 +174,5 @@ module.exports = {
   login,
   postBudget,
   postExpense,
-  postSavings
+  postSavings,
 };

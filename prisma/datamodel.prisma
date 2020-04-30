@@ -23,10 +23,12 @@ type User {
 type Expense {
   id: ID! @id
   expenseAmount: Float!
-  expenseDesc: String!
+  expenseDesc: String
   expenseCategory: String!
-  budget: Budget!
-  user: User!
+  expenseDate: DateTime!
+  budget: Budget! @relation(fields: [budgetId], references: [id])
+  budgetId: Int 
+  user: User! 
 }
 
 type Savings {

@@ -7,6 +7,16 @@ type Query {
     first: Int
     orderby: BudgetOrderByInput
   ): Feed!
+  currentBudget: Budget!
+  currentExpenses: [Expense]
+  userExists(email: String): User!
+}
+
+input UserWhereInput {
+  id: ID
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
 }
 
 enum BudgetOrderByInput {
@@ -43,8 +53,9 @@ type Mutation {
   ): Budget!
   postExpense(
     expenseAmount: Float!
-    expenseDesc: String!
+    expenseDesc: String
     expenseCategory: String!
+    expenseDate: DateTime!
     budgetId: ID!
   ): Expense!
   postSavings(amount: Float!, budgetId: ID!): Savings!
@@ -53,6 +64,7 @@ type Mutation {
 type AuthPayload {
   token: String
   user: User
+  latestBudget: Budget
 }
 
 type User {
@@ -73,14 +85,17 @@ type Budget {
   savings: [Savings]
   createdAt: DateTime!
   postedBy: User
-  sumExpenses: Float
+  totalExpenses: Float
+  remainingAmount: Float
+  totalSavings: Float
 }
 
 type Expense {
   id: ID!
   expenseAmount: Float!
-  expenseDesc: String!
+  expenseDesc: String
   expenseCategory: String!
+  expenseDate: DateTime!
   budget: Budget!
   user: User!
 }
